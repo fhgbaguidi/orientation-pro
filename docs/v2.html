@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Questionnaire d'Auto-Évaluation pour l'Atelier</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f8f9fa;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background-color: #fff;
+            padding: 2em;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1, h2, h3 {
+            color: #005a9c;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        h1 {
+            text-align: center;
+            font-size: 2em;
+        }
+        h2 {
+            margin-top: 2em;
+            font-size: 1.6em;
+        }
+        h3 {
+            margin-top: 1.5em;
+            font-size: 1.3em;
+            color: #347ab7;
+            border-bottom: none;
+        }
+        fieldset {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.5em;
+            margin-top: 1em;
+        }
+        legend {
+            font-weight: bold;
+            font-size: 1.1em;
+            padding: 0 10px;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        input[type="number"] {
+            width: 60px;
+            padding: 5px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+            margin-top: 10px;
+            box-sizing: border-box;
+        }
+        .results-section {
+            background-color: #e9f5ff;
+            border: 1px solid #bde0fe;
+            border-radius: 8px;
+            padding: 1em;
+            margin-top: 1.5em;
+        }
+        .results-section h4 {
+            margin-top: 0;
+            color: #005a9c;
+        }
+        .score {
+            font-weight: bold;
+            color: #d9534f;
+        }
+        .total-score {
+            font-size: 1.1em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Questionnaire d'Auto-Évaluation</h1>
+    <p>Bonjour et bienvenue ! Ce questionnaire est un outil pour vous aider à mieux vous connaître. Il n'y a pas de bonnes ou de mauvaises réponses, seulement des indications pour éclairer vos réflexions. Prenez le temps d'y répondre honnêtement.</p>
+
+    <form id="evaluationForm">
+        <section>
+            <h2>Partie 1 : Facteurs de Personnalité</h2>
+            <p>Pour chaque paire d'affirmations, cochez celle qui vous correspond le plus naturellement.</p>
+
+            <fieldset>
+                <legend>Facteur 1 : Accommodant / Meneur</legend>
+                <label><input type="radio" name="f1q1" value="A"> A) Je préfère suivre les initiatives des autres dans un groupe.</label>
+                <label><input type="radio" name="f1q1" value="B"> B) Je prends spontanément les devants dans un groupe.</label>
+                <hr>
+                <label><input type="radio" name="f1q2" value="A"> A) Je suis à l'aise quand quelqu'un d'autre prend les décisions importantes.</label>
+                <label><input type="radio" name="f1q2" value="B"> B) Je ressens le besoin de participer activement aux décisions importantes.</label>
+                <hr>
+                <label><input type="radio" name="f1q3" value="A"> A) Je préfère soutenir les projets des autres.</label>
+                <label><input type="radio" name="f1q3" value="B"> B) J'aime initier de nouveaux projets et rallier les autres.</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Facteur 2 : Introverti / Extraverti</legend>
+                <label><input type="radio" name="f2q1" value="A"> A) Je me ressource en passant du temps seul.</label>
+                <label><input type="radio" name="f2q1" value="B"> B) Je me ressource en passant du temps avec les autres.</label>
+                <hr>
+                <label><input type="radio" name="f2q2" value="A"> A) Je réfléchis avant de parler.</label>
+                <label><input type="radio" name="f2q2" value="B"> B) Je pense en parlant.</label>
+                <hr>
+                <label><input type="radio" name="f2q3" value="A"> A) Je préfère avoir quelques relations profondes.</label>
+                <label><input type="radio" name="f2q3" value="B"> B) J'aime avoir de nombreuses relations, même moins profondes.</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Facteur 3 : Détaché / Compatissant</legend>
+                <label><input type="radio" name="f3q1" value="A"> A) Je suis plus à l'aise avec les concepts, les données et les objets.</label>
+                <label><input type="radio" name="f3q1" value="B"> B) Je suis plus à l'aise avec les personnes et leurs émotions.</label>
+                <hr>
+                <label><input type="radio" name="f3q2" value="A"> A) Je prends des décisions basées principalement sur la logique.</label>
+                <label><input type="radio" name="f3q2" value="B"> B) Je prends des décisions en tenant compte de l'impact sur les personnes.</label>
+                <hr>
+                <label><input type="radio" name="f3q3" value="A"> A) Je remarque d'abord les erreurs et les problèmes à résoudre.</label>
+                <label><input type="radio" name="f3q3" value="B"> B) Je remarque d'abord les besoins des personnes autour de moi.</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Facteur 4 : Non-structuré / Consciencieux</legend>
+                <label><input type="radio" name="f4q1" value="A"> A) Je suis spontané et m'adapte facilement aux changements.</label>
+                <label><input type="radio" name="f4q1" value="B"> B) J'aime planifier et suivre des routines établies.</label>
+                <hr>
+                <label><input type="radio" name="f4q2" value="A"> A) J'aime garder mes options ouvertes jusqu'au dernier moment.</label>
+                <label><input type="radio" name="f4q2" value="B"> B) Je préfère décider à l'avance et m'y tenir.</label>
+                <hr>
+                <label><input type="radio" name="f4q3" value="A"> A) Mon espace de travail est souvent désordonné mais fonctionnel.</label>
+                <label><input type="radio" name="f4q3" value="B"> B) J'aime que tout soit rangé et organisé dans mon espace.</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Facteur 5 : Prudent / Aventureux</legend>
+                <label><input type="radio" name="f5q1" value="A"> A) Je préfère les situations familières et prévisibles.</label>
+                <label><input type="radio" name="f5q1" value="B"> B) J'aime les nouvelles expériences et l'inconnu.</label>
+                <hr>
+                <label><input type="radio" name="f5q2" value="A"> A) Je réfléchis longuement avant de prendre des risques.</label>
+                <label><input type="radio" name="f5q2" value="B"> B) Je n'hésite pas à saisir des opportunités risquées.</label>
+                <hr>
+                <label><input type="radio" name="f5q3" value="A"> A) Je préfère la stabilité et la sécurité.</label>
+                <label><input type="radio" name="f5q3" value="B"> B) Je m'ennuie rapidement dans la routine.</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Facteur 6 : Conventionnel / Innovateur</legend>
+                <label><input type="radio" name="f6q1" value="A"> A) Je préfère suivre des méthodes éprouvées.</label>
+                <label><input type="radio" name="f6q1" value="B"> B) J'aime trouver de nouvelles façons de faire les choses.</label>
+                <hr>
+                <label><input type="radio" name="f6q2" value="A"> A) Je respecte les traditions et l'autorité établie.</label>
+                <label><input type="radio" name="f6q2" value="B"> B) Je remets en question le statu quo et les conventions.</label>
+                <hr>
+                <label><input type="radio" name="f6q3" value="A"> A) Je suis pratique et terre-à-terre.</label>
+                <label><input type="radio" name="f6q3" value="B"> B) Je suis imaginatif et conceptuel.</label>
+            </fieldset>
+
+            <div class="results-section">
+                <h4>Vos Résultats de Personnalité</h4>
+                <p>Une majorité de "A" ou "B" dans un facteur indique votre tendance naturelle.</p>
+                <ul>
+                    <li>Facteur 1 (Accommodant/Meneur) : <span class="score" id="resF1A">0</span> A / <span class="score" id="resF1B">0</span> B</li>
+                    <li>Facteur 2 (Introverti/Extraverti) : <span class="score" id="resF2A">0</span> A / <span class="score" id="resF2B">0</span> B</li>
+                    <li>Facteur 3 (Détaché/Compatissant) : <span class="score" id="resF3A">0</span> A / <span class="score" id="resF3B">0</span> B</li>
+                    <li>Facteur 4 (Non-structuré/Consciencieux) : <span class="score" id="resF4A">0</span> A / <span class="score" id="resF4B">0</span> B</li>
+                    <li>Facteur 5 (Prudent/Aventureux) : <span class="score" id="resF5A">0</span> A / <span class="score" id="resF5B">0</span> B</li>
+                    <li>Facteur 6 (Conventionnel/Innovateur) : <span class="score" id="resF6A">0</span> A / <span class="score" id="resF6B">0</span> B</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <h2>Partie 2 : Passions et Centres d'Intérêt</h2>
+            <p>Pour chaque affirmation, évaluez votre niveau d'intérêt de 1 (faible) à 5 (passion intense).</p>
+
+            <fieldset>
+                <legend>Domaine Mécanique (Travail manuel, objets)</legend>
+                <label><input type="number" min="1" max="5" class="passion-mecanique"> J'aime construire, réparer ou manipuler des objets physiques.</label>
+                <label><input type="number" min="1" max="5" class="passion-mecanique"> Je m'intéresse à comprendre comment les choses fonctionnent.</label>
+                <label><input type="number" min="1" max="5" class="passion-mecanique"> Je préfère les activités qui impliquent une coordination main-œil.</label>
+                <label><input type="number" min="1" max="5" class="passion-mecanique"> Je trouve de la satisfaction dans la création d'objets concrets.</label>
+                <label><input type="number" min="1" max="5" class="passion-mecanique"> Je suis attiré par les outils et les machines.</label>
+                <div class="total-score">TOTAL Mécanique : <span class="score" id="totalMecanique">0</span> / 25</div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Domaine Service (Aide aux personnes)</legend>
+                <label><input type="number" min="1" max="5" class="passion-service"> J'aime aider directement les gens à résoudre leurs problèmes.</label>
+                <label><input type="number" min="1" max="5" class="passion-service"> Je trouve de la joie à rendre service aux autres.</label>
+                <label><input type="number" min="1" max="5" class="passion-service"> Je suis sensible aux besoins des personnes autour de moi.</label>
+                <label><input type="number" min="1" max="5" class="passion-service"> Je m'épanouis dans des rôles où je peux prendre soin des autres.</label>
+                <label><input type="number" min="1" max="5" class="passion-service"> Je m'intéresse sincèrement au bien-être d'autrui.</label>
+                <div class="total-score">TOTAL Service : <span class="score" id="totalService">0</span> / 25</div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Domaine Analyse (Concepts, données)</legend>
+                <label><input type="number" min="1" max="5" class="passion-analyse"> J'aime résoudre des problèmes complexes.</label>
+                <label><input type="number" min="1" max="5" class="passion-analyse"> Je suis attiré par les chiffres, les formules ou les systèmes.</label>
+                <label><input type="number" min="1" max="5" class="passion-analyse"> Je trouve de la satisfaction dans l'analyse de données.</label>
+                <label><input type="number" min="1" max="5" class="passion-analyse"> J'aime comprendre comment les choses fonctionnent théoriquement.</label>
+                <label><input type="number" min="1" max="5" class="passion-analyse"> Je suis à l'aise avec les concepts abstraits.</label>
+                <div class="total-score">TOTAL Analyse : <span class="score" id="totalAnalyse">0</span> / 25</div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Domaine Influence (Impact sur les autres)</legend>
+                <label><input type="number" min="1" max="5" class="passion-influence"> J'aime persuader les autres et les amener à changer.</label>
+                <label><input type="number" min="1" max="5" class="passion-influence"> J'aide avec satisfaction les gens à progresser vers leurs objectifs.</label>
+                <label><input type="number" min="1" max="5" class="passion-influence"> J'aime enseigner et partager mes connaissances.</label>
+                <label><input type="number" min="1" max="5" class="passion-influence"> Je suis motivé par l'opportunité de diriger ou guider.</label>
+                <label><input type="number" min="1" max="5" class="passion-influence"> Je suis à l'aise pour vendre des idées ou des produits.</label>
+                <div class="total-score">TOTAL Influence : <span class="score" id="totalInfluence">0</span> / 25</div>
+            </fieldset>
+
+            <fieldset>
+                <legend>Domaine Expression (Communication, créativité)</legend>
+                <label><input type="number" min="1" max="5" class="passion-expression"> J'aime exprimer des idées à travers l'écriture, la parole ou l'art.</label>
+                <label><input type="number" min="1" max="5" class="passion-expression"> Je trouve de la joie dans la création artistique.</label>
+                <label><input type="number" min="1" max="5" class="passion-expression"> Je suis attiré par les mots, les images ou les sons.</label>
+                <label><input type="number" min="1" max="5" class="passion-expression"> J'aime concevoir de nouvelles idées et les communiquer.</label>
+                <label><input type="number" min="1" max="5" class="passion-expression"> Je suis sensible à l'esthétique et à la beauté.</label>
+                <div class="total-score">TOTAL Expression : <span class="score" id="totalExpression">0</span> / 25</div>
+            </fieldset>
+
+            <div class="results-section">
+                <h4>Synthèse de vos Passions</h4>
+                <label for="passion-summary">Notez ici vos 3 domaines de passion principaux :</label>
+                <textarea id="passion-summary" rows="3"></textarea>
+            </div>
+        </section>
+
+        <section>
+            <h2>Partie 3 : Inventaire des Capacités</h2>
+            <p>Pour chacune des capacités, évaluez votre niveau d'aptitude naturelle de 1 (faible) à 5 (forte).</p>
+
+            <fieldset>
+                <legend>Évaluez vos capacités</legend>
+                <label>Capacité d'équipe : <input type="number" min="1" max="5"></label>
+                <label>Capacité relationnelle : <input type="number" min="1" max="5"></label>
+                <label>Capacité d'organisation : <input type="number" min="1" max="5"></label>
+                <label>Capacité analytique : <input type="number" min="1" max="5"></label>
+                <label>Capacité interculturelle : <input type="number" min="1" max="5"></label>
+                <label>Capacité de gestion : <input type="number" min="1" max="5"></label>
+                <label>Capacité rédactionnelle : <input type="number" min="1" max="5"></label>
+                <label>Capacité administrative : <input type="number" min="1" max="5"></label>
+                <label>Capacité sportive/physique : <input type="number" min="1" max="5"></label>
+                <label>Capacité mathématique : <input type="number" min="1" max="5"></label>
+                <label>Capacité mécanique : <input type="number" min="1" max="5"></label>
+                <label>Capacité marketing : <input type="number" min="1" max="5"></label>
+                <label>Capacité artistique : <input type="number" min="1" max="5"></label>
+                <label>Capacité musicale : <input type="number" min="1" max="5"></label>
+            </fieldset>
+
+            <div class="results-section">
+                <h4>Synthèse de vos Capacités</h4>
+                <label for="capacity-summary">Listez ici les capacités pour lesquelles vous avez mis une note de 4 ou 5 :</label>
+                <textarea id="capacity-summary" rows="4"></textarea>
+            </div>
+        </section>
+
+        <section>
+            <h2>Partie 4 : Clarification des Valeurs Professionnelles</h2>
+            <p>Pour chaque catégorie, cochez les 3 à 5 valeurs les plus importantes pour vous.</p>
+
+            <fieldset>
+                <legend>Valeurs d'Environnement de Travail</legend>
+                <label><input type="checkbox" name="valeur_env"> Harmonie</label>
+                <label><input type="checkbox" name="valeur_env"> Voyage</label>
+                <label><input type="checkbox" name="valeur_env"> Variété</label>
+                <label><input type="checkbox" name="valeur_env"> Organisation</label>
+                <label><input type="checkbox" name="valeur_env"> Flexibilité</label>
+                <label><input type="checkbox" name="valeur_env"> Indépendance</label>
+                <label><input type="checkbox" name="valeur_env"> Justice</label>
+                <label><input type="checkbox" name="valeur_env"> Propreté</label>
+                <label><input type="checkbox" name="valeur_env"> Défis</label>
+                <label><input type="checkbox" name="valeur_env"> Stabilité</label>
+                <label><input type="checkbox" name="valeur_env"> Extérieur</label>
+                <label><input type="checkbox" name="valeur_env"> Intérieur</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Valeurs d'Attentes Professionnelles</legend>
+                <label><input type="checkbox" name="valeur_attentes"> Formation continue</label>
+                <label><input type="checkbox" name="valeur_attentes"> Reconnaissance</label>
+                <label><input type="checkbox" name="valeur_attentes"> Revenus</label>
+                <label><input type="checkbox" name="valeur_attentes"> Avancement</label>
+                <label><input type="checkbox" name="valeur_attentes"> Leadership</label>
+                <label><input type="checkbox" name="valeur_attentes"> Stimulation intellectuelle</label>
+                <label><input type="checkbox" name="valeur_attentes"> Aide aux autres</label>
+                <label><input type="checkbox" name="valeur_attentes"> Sécurité</label>
+            </fieldset>
+
+            <fieldset>
+                <legend>Valeurs de Vie</legend>
+                <label><input type="checkbox" name="valeur_vie"> Service à Dieu</label>
+                <label><input type="checkbox" name="valeur_vie"> Intégrité</label>
+                <label><input type="checkbox" name="valeur_vie"> Famille</label>
+                <label><input type="checkbox" name="valeur_vie"> Simplicité</label>
+                <label><input type="checkbox" name="valeur_vie"> Impact</label>
+                <label><input type="checkbox" name="valeur_vie"> Excellence</label>
+                <label><input type="checkbox" name="valeur_vie"> Créativité</label>
+                <label><input type="checkbox" name="valeur_vie"> Sagesse</label>
+                <label><input type="checkbox" name="valeur_vie"> Communauté</label>
+            </fieldset>
+        </section>
+    </form>
+    <p style="text-align:center; margin-top: 2em; font-style: italic;">Merci d'avoir pris le temps de remplir ce questionnaire !</p>
+</div>
+
+<script>
+    const form = document.getElementById('evaluationForm');
+
+    function calculateScores() {
+        // --- Calcul Personnalité ---
+        for (let i = 1; i <= 6; i++) {
+            let countA = 0;
+            let countB = 0;
+            const radios = form.querySelectorAll(`input[name^="f${i}q"]:checked`);
+            radios.forEach(radio => {
+                if (radio.value === 'A') {
+                    countA++;
+                } else if (radio.value === 'B') {
+                    countB++;
+                }
+            });
+            document.getElementById(`resF${i}A`).textContent = countA;
+            document.getElementById(`resF${i}B`).textContent = countB;
+        }
+
+        // --- Calcul Passions ---
+        const passionDomains = ['mecanique', 'service', 'analyse', 'influence', 'expression'];
+        passionDomains.forEach(domain => {
+            let total = 0;
+            const inputs = form.querySelectorAll(`.passion-${domain}`);
+            inputs.forEach(input => {
+                total += parseInt(input.value) || 0;
+            });
+            const domainCapitalized = domain.charAt(0).toUpperCase() + domain.slice(1);
+            document.getElementById(`total${domainCapitalized}`).textContent = total;
+        });
+    }
+
+    // Écouter les changements sur tout le formulaire
+    form.addEventListener('input', calculateScores);
+
+    // Calculer les scores au chargement de la page (pour initialiser à 0)
+    document.addEventListener('DOMContentLoaded', calculateScores);
+</script>
+
+</body>
+</html>
