@@ -812,7 +812,7 @@
     }
 
     // --- AFFICHAGE DES RÉSULTATS ---
-    async function showResults() {
+    function showResults() {
         const validationResult = validateSection(currentSection);
         if (validationResult) {
             displayError(validationResult.errorElement, validationResult.message);
@@ -838,38 +838,6 @@
                 html += `<div class="value-card"><h4>${r.name}</h4><ul>${r.values.map(v => `<li>${v.split('(')[0].trim()}</li>`).join('')}</ul></div>`;
             });
             resultsContent.innerHTML += html + '</div>';
-        }
-
-        // Créer un objet global avec tous les résultats
-        const submissionData = {
-            personality: personalityResults,
-            passions: passionResults,
-            capacities: capacityResults,
-            values: valueResults,
-            date: new Date().toISOString() // On ajoute la date de soumission
-        };
-
-        // --- 2. Tenter d'enregistrer les données (NOUVELLE PARTIE) ---
-        const SUPABASE_URL = 'https://axecogumnpqsufgcgcnk.supabase.co'; // À remplacer
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4ZWNvZ3VtbnBxc3VmZ2NnY25rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5MDYyMjEsImV4cCI6MjAzOTQ4MjIyMX0.dJY8f-VL7owcUkLVNVsSloMwJwV7jyBThluebRV0cHo'; // À remplacer
-
-        try {
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/orientation_responses`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                },
-                body: JSON.stringify({ results: submissionData }) // On insère notre objet dans la colonne 'results'
-            });
-
-            if (!response.ok) {
-                // Si l'enregistrement échoue, on affiche une erreur discrète mais on continue
-                console.error("Erreur lors de l'enregistrement des résultats :", await response.json());
-            }
-        } catch (error) {
-            console.error("Erreur réseau lors de la tentative d'enregistrement:", error);
         }
 
         currentSection = sections.length - 1;
