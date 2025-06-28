@@ -237,7 +237,7 @@
         card.className = 'response-card';
 
         const results = record.results; // L'objet JSON contenant toutes les données
-        const responseDate = new Date(record.date).toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short'});
+        const responseDate = new Date(record.date).toLocaleString();
 
         card.innerHTML = `
                 <div class="response-header">
