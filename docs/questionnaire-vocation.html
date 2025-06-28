@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -19,9 +23,62 @@
             color: #333;
         }
 
-        .container {
-            max-width: 800px;
+        .main-layout {
+            display: flex;
+            gap: 30px;
+            max-width: 1200px;
             margin: 0 auto;
+            align-items: flex-start;
+        }
+
+        #sidebar {
+            flex: 0 0 240px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        #sidebar h3 {
+            color: #5a67d8;
+            font-size: 1.4em;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+
+        #toc {
+            list-style: none;
+        }
+
+        #toc li {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            color: #4a5568;
+            cursor: pointer;
+            font-weight: 500;
+            border-left: 4px solid transparent;
+        }
+
+        #toc li:hover {
+            background-color: #f0f2ff;
+            color: #5a67d8;
+        }
+
+        #toc li.active {
+            background-color: #e9eefe;
+            color: #5a67d8;
+            font-weight: 600;
+            border-left-color: #667eea;
+        }
+
+        .container {
+            flex: 1;
+            max-width: 800px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
@@ -83,9 +140,41 @@
             transition: all 0.3s ease;
         }
 
-        .question-group:hover {
+        .value-group {
+            border: 1px solid #e9ecef;
+            background: #f7fafc;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-group:hover, .value-group:hover {
             border-color: #e2e8f0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        legend {
+            font-size: 1.3em;
+            font-weight: 500;
+            color: #667eea;
+            padding: 0 10px;
+        }
+
+        .checkbox-counter {
+            font-size: 0.8em;
+            font-weight: 400;
+            color: #718096;
+            margin-left: 8px;
+        }
+
+        .error-message-inline {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 500;
+            animation: fadeIn 0.3s;
         }
 
         .radio-group {
@@ -177,6 +266,12 @@
             border-color: #667eea;
         }
 
+        .checkbox-label.disabled {
+            cursor: not-allowed;
+            background-color: #f7fafc;
+            opacity: 0.6;
+        }
+
         .checkbox-label input[type="checkbox"] {
             margin-right: 10px;
         }
@@ -241,6 +336,12 @@
             border: 2px solid #667eea;
         }
 
+        .results h3 {
+            color: #5a67d8;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
         .result-item {
             background: white;
             padding: 20px;
@@ -249,9 +350,40 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .result-item h3 {
-            color: #5a67d8;
+        .value-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+        }
+        .value-card h4, .result-item h4 {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .value-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .value-card li {
+            font-size: 1.1em;
+            color: #555;
             margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .value-card li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
         }
 
         .score-bar {
@@ -298,38 +430,40 @@
             margin-bottom: 30px;
         }
 
-        .error {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 15px;
-            border-radius: 8px;
-            margin: 10px 0;
-            display: none;
+        @media (max-width: 992px) {
+            .main-layout {
+                flex-direction: column;
+            }
+            #sidebar {
+                position: static;
+                width: 100%;
+                margin-bottom: 20px;
+            }
         }
 
         @media (max-width: 600px) {
-            .container {
+            .container, #sidebar {
                 padding: 20px;
             }
-            
+
             h1 {
                 font-size: 2em;
             }
-            
+
             .radio-group {
                 flex-direction: column;
             }
-            
+
             .likert-scale {
                 flex-wrap: wrap;
                 justify-content: center;
                 gap: 10px;
             }
-            
+
             .navigation {
                 flex-direction: column;
             }
-            
+
             button {
                 width: 100%;
             }
@@ -337,17 +471,27 @@
     </style>
 </head>
 <body>
+<div class="main-layout">
+    <nav id="sidebar">
+        <h3>Plan du questionnaire</h3>
+        <ul id="toc">
+            <li id="toc-intro" class="active">Introduction</li>
+            <li id="toc-personality">1. Personnalité</li>
+            <li id="toc-passions">2. Passions</li>
+            <li id="toc-capacities">3. Capacités</li>
+            <li id="toc-values">4. Valeurs</li>
+            <li id="toc-results">Résultats</li>
+        </ul>
+    </nav>
+
     <div class="container">
         <h1>Questionnaire d'évaluation personnelle</h1>
         <p class="subtitle">Découvrez vos traits de personnalité, passions, capacités et valeurs</p>
-        
+
         <div class="progress-bar">
             <div class="progress-fill" id="progress"></div>
         </div>
-        
-        <div id="error" class="error"></div>
 
-        <!-- Section Introduction -->
         <div class="section active" id="section-intro">
             <div class="intro">
                 <h2>Bienvenue dans votre parcours d'auto-découverte</h2>
@@ -356,1578 +500,396 @@
                 <p>Le questionnaire prend environ 20-30 minutes à compléter.</p>
             </div>
             <div class="navigation">
+                <span></span>
                 <button onclick="nextSection()">Commencer</button>
             </div>
         </div>
 
-        <!-- Section 1: Facteurs de personnalité -->
         <div class="section" id="section-personality">
             <h2>Questionnaire de discernement des facteurs de personnalité</h2>
             <p>Pour chaque paire d'affirmations, indiquez celle qui vous correspond le mieux naturellement.</p>
-
             <h3>Facteur 1: Accommodant/Meneur</h3>
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f1q1" value="A">
-                        <span>A) Je préfère suivre les initiatives des autres dans un groupe</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f1q1" value="B">
-                        <span>B) Je prends spontanément les devants dans un groupe</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f1q2" value="A">
-                        <span>A) Je suis à l'aise quand quelqu'un d'autre prend les décisions importantes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f1q2" value="B">
-                        <span>B) Je ressens le besoin de participer activement aux décisions importantes</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f1q3" value="A">
-                        <span>A) Je préfère soutenir les projets des autres</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f1q3" value="B">
-                        <span>B) J'aime initier de nouveaux projets et rallier les autres</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f1q1" value="A"><span>A) Je préfère suivre les initiatives des autres dans un groupe</span></label> <label class="radio-label"><input type="radio" name="f1q1" value="B"><span>B) Je prends spontanément les devants dans un groupe</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f1q2" value="A"><span>A) Je suis à l'aise quand quelqu'un d'autre prend les décisions importantes</span></label> <label class="radio-label"><input type="radio" name="f1q2" value="B"><span>B) Je ressens le besoin de participer activement aux décisions importantes</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f1q3" value="A"><span>A) Je préfère soutenir les projets des autres</span></label> <label class="radio-label"><input type="radio" name="f1q3" value="B"><span>B) J'aime initier de nouveaux projets et rallier les autres</span></label> </div> </div>
             <h3>Facteur 2: Introverti/Extraverti</h3>
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f2q1" value="A">
-                        <span>A) Je me ressource en passant du temps seul</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f2q2" value="B">
-                        <span>B) Je me ressource en passant du temps avec les autres</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f2q2" value="A">
-                        <span>A) Je réfléchis avant de parler</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f2q2" value="B">
-                        <span>B) Je pense en parlant</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f2q3" value="A">
-                        <span>A) Je préfère avoir quelques relations profondes</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f2q3" value="B">
-                        <span>B) J'aime avoir de nombreuses relations, même moins profondes</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f2q1" value="A"><span>A) Je me ressource en passant du temps seul</span></label> <label class="radio-label"><input type="radio" name="f2q1" value="B"><span>B) Je me ressource en passant du temps avec les autres</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f2q2" value="A"><span>A) Je réfléchis avant de parler</span></label> <label class="radio-label"><input type="radio" name="f2q2" value="B"><span>B) Je pense en parlant</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f2q3" value="A"><span>A) Je préfère avoir quelques relations profondes</span></label> <label class="radio-label"><input type="radio" name="f2q3" value="B"><span>B) J'aime avoir de nombreuses relations, même moins profondes</span></label> </div> </div>
             <h3>Facteur 3: Détaché/Compatissant</h3>
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f3q1" value="A">
-                        <span>A) Je suis plus à l'aise avec les concepts, les données et les objets</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f3q1" value="B">
-                        <span>B) Je suis plus à l'aise avec les personnes et leurs émotions</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f3q2" value="A">
-                        <span>A) Je prends des décisions basées principalement sur la logique</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f3q2" value="B">
-                        <span>B) Je prends des décisions en tenant compte de l'impact sur les personnes</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f3q3" value="A">
-                        <span>A) Je remarque d'abord les erreurs et les problèmes à résoudre</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f3q3" value="B">
-                        <span>B) Je remarque d'abord les besoins des personnes autour de moi</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f3q1" value="A"><span>A) Je suis plus à l'aise avec les concepts, les données et les objets</span></label> <label class="radio-label"><input type="radio" name="f3q1" value="B"><span>B) Je suis plus à l'aise avec les personnes et leurs émotions</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f3q2" value="A"><span>A) Je prends des décisions basées principalement sur la logique</span></label> <label class="radio-label"><input type="radio" name="f3q2" value="B"><span>B) Je prends des décisions en tenant compte de l'impact sur les personnes</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f3q3" value="A"><span>A) Je remarque d'abord les erreurs et les problèmes à résoudre</span></label> <label class="radio-label"><input type="radio" name="f3q3" value="B"><span>B) Je remarque d'abord les besoins des personnes autour de moi</span></label> </div> </div>
             <h3>Facteur 4: Non-structuré/Consciencieux</h3>
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f4q1" value="A">
-                        <span>A) Je suis spontané et m'adapte facilement aux changements</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f4q1" value="B">
-                        <span>B) J'aime planifier et suivre des routines établies</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f4q2" value="A">
-                        <span>A) J'aime garder mes options ouvertes jusqu'au dernier moment</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f4q2" value="B">
-                        <span>B) Je préfère décider à l'avance et m'y tenir</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f4q3" value="A">
-                        <span>A) Mon espace de travail est souvent désordonné mais fonctionnel</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f4q3" value="B">
-                        <span>B) J'aime que tout soit rangé et organisé dans mon espace</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f4q1" value="A"><span>A) Je suis spontané et m'adapte facilement aux changements</span></label> <label class="radio-label"><input type="radio" name="f4q1" value="B"><span>B) J'aime planifier et suivre des routines établies</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f4q2" value="A"><span>A) J'aime garder mes options ouvertes jusqu'au dernier moment</span></label> <label class="radio-label"><input type="radio" name="f4q2" value="B"><span>B) Je préfère décider à l'avance et m'y tenir</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f4q3" value="A"><span>A) Mon espace de travail est souvent désordonné mais fonctionnel</span></label> <label class="radio-label"><input type="radio" name="f4q3" value="B"><span>B) J'aime que tout soit rangé et organisé dans mon espace</span></label> </div> </div>
             <h3>Facteur 5: Prudent/Aventureux</h3>
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f5q1" value="A">
-                        <span>A) Je préfère les situations familières et prévisibles</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f5q1" value="B">
-                        <span>B) J'aime les nouvelles expériences et l'inconnu</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f5q2" value="A">
-                        <span>A) Je réfléchis longuement avant de prendre des risques</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f5q2" value="B">
-                        <span>B) Je n'hésite pas à saisir des opportunités risquées</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f5q3" value="A">
-                        <span>A) Je préfère la stabilité et la sécurité</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f5q3" value="B">
-                        <span>B) Je m'ennuie rapidement dans la routine</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f5q1" value="A"><span>A) Je préfère les situations familières et prévisibles</span></label> <label class="radio-label"><input type="radio" name="f5q1" value="B"><span>B) J'aime les nouvelles expériences et l'inconnu</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f5q2" value="A"><span>A) Je réfléchis longuement avant de prendre des risques</span></label> <label class="radio-label"><input type="radio" name="f5q2" value="B"><span>B) Je n'hésite pas à saisir des opportunités risquées</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f5q3" value="A"><span>A) Je préfère la stabilité et la sécurité</span></label> <label class="radio-label"><input type="radio" name="f5q3" value="B"><span>B) Je m'ennuie rapidement dans la routine</span></label> </div> </div>
             <h3>Facteur 6: Conventionnel/Innovateur</h3>
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f6q1" value="A">
-                        <span>A) Je préfère suivre des méthodes éprouvées</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f6q1" value="B">
-                        <span>B) J'aime trouver de nouvelles façons de faire les choses</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f6q2" value="A">
-                        <span>A) Je respecte les traditions et l'autorité établie</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f6q2" value="B">
-                        <span>B) Je remets en question le statu quo et les conventions</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <div class="radio-group">
-                    <label class="radio-label">
-                        <input type="radio" name="f6q3" value="A">
-                        <span>A) Je suis pratique et terre-à-terre</span>
-                    </label>
-                    <label class="radio-label">
-                        <input type="radio" name="f6q3" value="B">
-                        <span>B) Je suis imaginatif et conceptuel</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="navigation">
-                <button onclick="previousSection()">Précédent</button>
-                <button onclick="nextSection()">Suivant</button>
-            </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f6q1" value="A"><span>A) Je préfère suivre des méthodes éprouvées</span></label> <label class="radio-label"><input type="radio" name="f6q1" value="B"><span>B) J'aime trouver de nouvelles façons de faire les choses</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f6q2" value="A"><span>A) Je respecte les traditions et l'autorité établie</span></label> <label class="radio-label"><input type="radio" name="f6q2" value="B"><span>B) Je remets en question le statu quo et les conventions</span></label> </div> </div>
+            <div class="question-group"> <div class="radio-group"> <label class="radio-label"><input type="radio" name="f6q3" value="A"><span>A) Je suis pratique et terre-à-terre</span></label> <label class="radio-label"><input type="radio" name="f6q3" value="B"><span>B) Je suis imaginatif et conceptuel</span></label> </div> </div>
+            <div class="navigation"> <button onclick="previousSection()">Précédent</button> <button onclick="nextSection()">Suivant</button> </div>
         </div>
 
-        <!-- Section 2: Passions et centres d'intérêt -->
         <div class="section" id="section-passions">
             <h2>Auto-évaluation des passions et centres d'intérêt</h2>
             <p>Évaluez votre niveau d'intérêt pour chacune des affirmations suivantes de 1 (faible intérêt) à 5 (passion intense).</p>
-
             <h3>Domaine mécanique (travail manuel, objets)</h3>
-            <div class="question-group">
-                <p>J'aime construire, réparer ou manipuler des objets physiques.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="mech1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je m'intéresse à comprendre comment les choses fonctionnent mécaniquement.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="mech2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je préfère les activités qui impliquent une coordination main-œil.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="mech3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je trouve de la satisfaction dans la création d'objets concrets et tangibles.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="mech4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis attiré par les outils et les machines.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="mech5" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech5" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech5" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech5" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="mech5" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <p>J'aime construire, réparer ou manipuler des objets physiques.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je m'intéresse à comprendre comment les choses fonctionnent mécaniquement.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je préfère les activités qui impliquent une coordination main-œil.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je trouve de la satisfaction dans la création d'objets concrets et tangibles.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech4" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis attiré par les outils et les machines.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech5" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech5" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech5" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech5" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech5" value="5"><span>5</span></label> </div> </div>
             <h3>Domaine service (aide aux personnes)</h3>
-            <div class="question-group">
-                <p>J'aime aider directement les gens à résoudre leurs problèmes.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="serv1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je trouve de la joie à rendre service aux autres.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="serv2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis sensible aux besoins des personnes autour de moi.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="serv3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je m'épanouis dans des rôles où je peux prendre soin des autres.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="serv4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je m'intéresse sincèrement au bien-être d'autrui.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="serv5" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv5" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv5" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv5" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="serv5" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <p>J'aime aider directement les gens à résoudre leurs problèmes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="serv1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="serv1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="serv1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="serv1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="serv1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je trouve de la joie à rendre service aux autres.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="serv2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="serv2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="serv2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="serv2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="serv2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis sensible aux besoins des personnes autour de moi.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="serv3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="serv3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="serv3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="serv3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="serv3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je m'épanouis dans des rôles où je peux prendre soin des autres.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="serv4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="serv4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="serv4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="serv4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="serv4" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je m'intéresse sincèrement au bien-être d'autrui.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="serv5" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="serv5" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="serv5" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="serv5" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="serv5" value="5"><span>5</span></label> </div> </div>
             <h3>Domaine analyse (concepts, données)</h3>
-            <div class="question-group">
-                <p>J'aime résoudre des problèmes complexes.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="anal1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis attiré par les chiffres, les formules ou les systèmes.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="anal2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je trouve de la satisfaction dans l'analyse de données ou d'informations.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="anal3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>J'aime comprendre comment les choses fonctionnent théoriquement.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="anal4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis à l'aise avec les concepts abstraits.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="anal5" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal5" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal5" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal5" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="anal5" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <p>J'aime résoudre des problèmes complexes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="anal1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="anal1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="anal1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="anal1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="anal1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis attiré par les chiffres, les formules ou les systèmes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="anal2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="anal2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="anal2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="anal2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="anal2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je trouve de la satisfaction dans l'analyse de données ou d'informations.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="anal3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="anal3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="anal3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="anal3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="anal3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'aime comprendre comment les choses fonctionnent théoriquement.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="anal4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="anal4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="anal4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="anal4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="anal4" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis à l'aise avec les concepts abstraits.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="anal5" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="anal5" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="anal5" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="anal5" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="anal5" value="5"><span>5</span></label> </div> </div>
             <h3>Domaine influence (impact sur les autres)</h3>
-            <div class="question-group">
-                <p>J'aime persuader les autres et les amener à changer leur perspective.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="infl1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je trouve de la satisfaction à aider les gens à progresser vers leurs objectifs.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="infl2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>J'aime enseigner et partager mes connaissances avec d'autres.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="infl3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis motivé par l'opportunité de diriger ou guider des personnes.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="infl4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis à l'aise pour vendre des idées ou des produits.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="infl5" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl5" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl5" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl5" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="infl5" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <p>J'aime persuader les autres et les amener à changer leur perspective.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="infl1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="infl1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="infl1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="infl1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="infl1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je trouve de la satisfaction à aider les gens à progresser vers leurs objectifs.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="infl2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="infl2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="infl2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="infl2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="infl2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'aime enseigner et partager mes connaissances avec d'autres.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="infl3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="infl3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="infl3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="infl3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="infl3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis motivé par l'opportunité de diriger ou guider des personnes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="infl4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="infl4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="infl4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="infl4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="infl4" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis à l'aise pour vendre des idées ou des produits.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="infl5" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="infl5" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="infl5" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="infl5" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="infl5" value="5"><span>5</span></label> </div> </div>
             <h3>Domaine expression (communication, créativité)</h3>
-            <div class="question-group">
-                <p>J'aime exprimer des idées à travers l'écriture, la parole ou l'art.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="expr1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je trouve de la joie dans la création artistique.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="expr2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis attiré par les mots, les images ou les sons.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="expr3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>J'aime concevoir de nouvelles idées et les communiquer.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="expr4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis sensible à l'esthétique et à la beauté.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="expr5" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr5" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr5" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr5" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="expr5" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="navigation">
-                <button onclick="previousSection()">Précédent</button>
-                <button onclick="nextSection()">Suivant</button>
-            </div>
+            <div class="question-group"> <p>J'aime exprimer des idées à travers l'écriture, la parole ou l'art.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je trouve de la joie dans la création artistique.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis attiré par les mots, les images ou les sons.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'aime concevoir de nouvelles idées et les communiquer.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr4" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis sensible à l'esthétique et à la beauté.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr5" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr5" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr5" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr5" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr5" value="5"><span>5</span></label> </div> </div>
+            <div class="navigation"> <button onclick="previousSection()">Précédent</button> <button onclick="nextSection()">Suivant</button> </div>
         </div>
 
-        <!-- Section 3: Capacités et compétences -->
         <div class="section" id="section-capacities">
             <h2>Inventaire des capacités et compétences</h2>
             <p>Pour chacune des capacités ci-dessous, évaluez votre niveau d'aptitude naturelle de 1 (faible) à 5 (forte).</p>
-
             <h3>Capacité d'équipe</h3>
-            <div class="question-group">
-                <p>Je contribue efficacement au fonctionnement d'une équipe.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je comprends facilement la dynamique de groupe.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je fais des sacrifices pour le bien de l'équipe.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>J'aide à réconcilier différentes tendances dans un groupe.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_team4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
+            <div class="question-group"> <p>Je contribue efficacement au fonctionnement d'une équipe.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_team1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je comprends facilement la dynamique de groupe.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_team2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je fais des sacrifices pour le bien de l'équipe.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_team3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_team3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_team3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_team3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_team3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'aide à réconcilier différentes tendances dans un groupe.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_team4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_team4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_team4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_team4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_team4" value="5"><span>5</span></label> </div> </div>
             <h3>Capacité relationnelle</h3>
-            <div class="question-group">
-                <p>Je développe et maintiens des amitiés profondes.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel1" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel1" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel1" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel1" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel1" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je suis loyal dans mes relations.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel2" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel2" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel2" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel2" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel2" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>Je comprends intuitivement les besoins relationnels des autres.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel3" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel3" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel3" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel3" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel3" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <div class="question-group">
-                <p>J'établis facilement la confiance avec de nouvelles personnes.</p>
-                <div class="likert-scale">
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel4" value="1">
-                        <span>1</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel4" value="2">
-                        <span>2</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel4" value="3">
-                        <span>3</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel4" value="4">
-                        <span>4</span>
-                    </label>
-                    <label class="likert-option">
-                        <input type="radio" name="cap_rel4" value="5">
-                        <span>5</span>
-                    </label>
-                </div>
-            </div>
-
-            <p><em>Pour des raisons de longueur, le reste des capacités (organisation, analytique, interculturelle, gestion, rédactionnelle, administrative, sportive/physique, mathématique, mécanique, marketing, artistique, musicale) suivrait le même format avec leurs 4 questions respectives.</em></p>
-
-            <div class="navigation">
-                <button onclick="previousSection()">Précédent</button>
-                <button onclick="nextSection()">Suivant</button>
-            </div>
+            <div class="question-group"> <p>Je développe et maintiens des amitiés profondes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_rel1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_rel1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_rel1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_rel1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_rel1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis loyal dans mes relations.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_rel2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_rel2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_rel2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_rel2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_rel2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je comprends intuitivement les besoins relationnels des autres.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_rel3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_rel3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_rel3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_rel3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_rel3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'établis facilement la confiance avec de nouvelles personnes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_rel4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_rel4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_rel4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_rel4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_rel4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité d'organisation</h3>
+            <div class="question-group"> <p>Je coordonne efficacement différentes personnes et tâches.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_orga1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_orga1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_orga1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_orga1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_orga1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je garde une vision d'ensemble tout en gérant les détails.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_orga2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_orga2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_orga2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_orga2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_orga2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je délègue et distribue les rôles de manière efficace.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_orga3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_orga3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_orga3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_orga3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_orga3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je structure naturellement les projets et les processus.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_orga4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_orga4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_orga4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_orga4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_orga4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité analytique</h3>
+            <div class="question-group"> <p>J'identifie rapidement les problèmes sous-jacents.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_anal1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_anal1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_anal1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_anal1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_anal1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je décompose les problèmes complexes en éléments gérables.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_anal2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_anal2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_anal2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_anal2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_anal2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je tire des conclusions logiques à partir de données diverses.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_anal3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_anal3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_anal3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_anal3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_anal3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'ai une pensée structurée et méthodique.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_anal4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_anal4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_anal4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_anal4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_anal4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité interculturelle</h3>
+            <div class="question-group"> <p>Je m'adapte facilement à différents environnements culturels.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_inter1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_inter1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_inter1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_inter1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_inter1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'apprends rapidement de nouvelles langues.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_inter2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_inter2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_inter2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_inter2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_inter2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je crée des ponts entre personnes de cultures différentes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_inter3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_inter3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_inter3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_inter3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_inter3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'apprécie la diversité et les perspectives internationales.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_inter4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_inter4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_inter4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_inter4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_inter4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité de gestion</h3>
+            <div class="question-group"> <p>Je supervise efficacement le travail des autres.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_gest1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_gest1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_gest1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_gest1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_gest1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je développe le potentiel des personnes sous ma responsabilité.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_gest2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_gest2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_gest2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_gest2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_gest2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'atteins les objectifs en utilisant bien les ressources disponibles.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_gest3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_gest3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_gest3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_gest3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_gest3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je prends des décisions rapides et efficaces.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_gest4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_gest4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_gest4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_gest4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_gest4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité rédactionnelle</h3>
+            <div class="question-group"> <p>J'exprime clairement mes idées par écrit.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_redac1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_redac1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_redac1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_redac1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_redac1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je structure logiquement mes textes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_redac2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_redac2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_redac2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_redac2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_redac2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'adapte mon style d'écriture à différents publics.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_redac3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_redac3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_redac3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_redac3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_redac3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je trouve les mots justes pour communiquer avec précision.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_redac4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_redac4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_redac4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_redac4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_redac4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité administrative</h3>
+            <div class="question-group"> <p>Je gère efficacement les détails et la paperasserie.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_admin1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_admin1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_admin1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_admin1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_admin1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'organise l'information de manière accessible.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_admin2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_admin2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_admin2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_admin2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_admin2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je maintiens des systèmes ordonnés et fonctionnels.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_admin3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_admin3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_admin3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_admin3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_admin3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis précis et méticuleux dans mon travail.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_admin4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_admin4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_admin4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_admin4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_admin4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité sportive/physique</h3>
+            <div class="question-group"> <p>J'ai une bonne coordination corporelle.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_sport1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_sport1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_sport1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_sport1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_sport1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'apprends facilement de nouveaux mouvements physiques.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_sport2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_sport2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_sport2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_sport2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_sport2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'ai de l'endurance et de la résistance physique.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_sport3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_sport3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_sport3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_sport3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_sport3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je suis à l'aise dans des activités nécessitant de la dextérité.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_sport4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_sport4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_sport4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_sport4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_sport4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité mathématique</h3>
+            <div class="question-group"> <p>Je comprends intuitivement les concepts numériques.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_math1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_math1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_math1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_math1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_math1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je résous facilement des problèmes mathématiques.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_math2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_math2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_math2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_math2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_math2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je repère rapidement des modèles et des structures dans les données.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_math3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_math3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_math3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_math3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_math3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'ai une pensée quantitative naturelle.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_math4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_math4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_math4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_math4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_math4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité mécanique</h3>
+            <div class="question-group"> <p>Je comprends facilement comment fonctionnent les objets mécaniques.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mech1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mech1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mech1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mech1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mech1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je répare instinctivement les choses cassées.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mech2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mech2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mech2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mech2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mech2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'ai une bonne perception spatiale.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mech3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mech3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mech3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mech3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mech3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je manipule habilement les outils et les matériaux.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mech4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mech4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mech4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mech4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mech4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité marketing</h3>
+            <div class="question-group"> <p>Je perçois ce qui attire l'attention des gens.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mark1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mark1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mark1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mark1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mark1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je présente efficacement les avantages d'un produit ou d'une idée.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mark2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mark2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mark2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mark2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mark2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je comprends intuitivement les besoins des clients.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mark3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mark3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mark3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mark3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mark3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je crée des messages persuasifs.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_mark4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_mark4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_mark4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_mark4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_mark4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité artistique</h3>
+            <div class="question-group"> <p>J'ai un bon sens de l'esthétique et du design.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_art1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_art1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_art1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_art1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_art1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je crée des œuvres visuellement attrayantes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_art2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_art2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_art2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_art2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_art2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'exprime des émotions et des idées à travers l'art.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_art3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_art3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_art3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_art3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_art3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'ai un style créatif distinctif.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_art4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_art4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_art4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_art4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_art4" value="5"><span>5</span></label> </div> </div>
+            <h3>Capacité musicale</h3>
+            <div class="question-group"> <p>J'ai une bonne oreille pour les mélodies et les rythmes.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music1" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'apprends facilement de nouveaux morceaux ou instruments.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>J'exprime des émotions à travers la musique.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="5"><span>5</span></label> </div> </div>
+            <div class="question-group"> <p>Je comprends intuitivement la structure musicale.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="5"><span>5</span></label> </div> </div>
+            <div class="navigation"> <button onclick="previousSection()">Précédent</button> <button onclick="nextSection()">Suivant</button> </div>
         </div>
 
-        <!-- Section 4: Valeurs professionnelles -->
         <div class="section" id="section-values">
             <h2>Clarification des valeurs professionnelles</h2>
-            <p>Pour chaque catégorie, sélectionnez les 3-5 valeurs les plus importantes pour vous.</p>
-
-            <h3>Valeurs d'environnement de travail</h3>
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="harmonie">
-                    <span>Harmonie (environnement de travail paisible, peu conflictuel)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="voyage">
-                    <span>Voyage (opportunité de se déplacer régulièrement)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="variete">
-                    <span>Variété (diversité des tâches et des défis)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="organisation">
-                    <span>Organisation (structure claire et ordonnée)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="flexibilite">
-                    <span>Flexibilité (horaires adaptables, autonomie)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="independance">
-                    <span>Indépendance (liberté de décision et d'action)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="justice">
-                    <span>Justice (équité dans le traitement des personnes)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="proprete">
-                    <span>Propreté (environnement de travail net et agréable)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="defis">
-                    <span>Défis (problèmes stimulants à résoudre)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="stabilite">
-                    <span>Stabilité (peu de changements brusques)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="exterieur">
-                    <span>Extérieur (travail en plein air, connexion avec la nature)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="env_values" value="interieur">
-                    <span>Intérieur (travail en bureau ou environnement contrôlé)</span>
-                </label>
-            </div>
-
-            <h3>Valeurs d'attentes professionnelles</h3>
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="formation">
-                    <span>Formation continue (opportunités d'apprentissage constant)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="reconnaissance">
-                    <span>Reconnaissance (crédit pour vos contributions et réalisations)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="revenus">
-                    <span>Revenus (rémunération généreuse)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="avancement">
-                    <span>Avancement (possibilités de promotion)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="leadership">
-                    <span>Leadership (occasions de diriger des équipes)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="stimulation">
-                    <span>Stimulation intellectuelle (défis mentaux réguliers)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="aide">
-                    <span>Aide aux autres (impact positif sur la vie des gens)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="prof_values" value="securite">
-                    <span>Sécurité (emploi stable et prévisible)</span>
-                </label>
-            </div>
-
-            <h3>Valeurs de vie</h3>
-            <div class="checkbox-group">
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="service">
-                    <span>Service à Dieu (alignement avec la mission divine)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="integrite">
-                    <span>Intégrité (cohérence entre convictions et actions)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="famille">
-                    <span>Famille (équilibre entre vie professionnelle et familiale)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="simplicite">
-                    <span>Simplicité (style de vie non matérialiste)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="impact">
-                    <span>Impact (influence positive à long terme)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="excellence">
-                    <span>Excellence (qualité supérieure dans tout ce que vous faites)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="creativite">
-                    <span>Créativité (expression originale et innovation)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="sagesse">
-                    <span>Sagesse (acquisition et application de la connaissance)</span>
-                </label>
-                <label class="checkbox-label">
-                    <input type="checkbox" name="life_values" value="communaute">
-                    <span>Communauté (connexion profonde avec les autres)</span>
-                </label>
-            </div>
-
-            <div class="navigation">
-                <button onclick="previousSection()">Précédent</button>
-                <button onclick="showResults()">Voir mes résultats</button>
-            </div>
+            <p>Pour chaque catégorie, sélectionnez entre 3 et 5 valeurs qui sont les plus importantes pour vous.</p>
+            <fieldset class="value-group"> <legend>Valeurs d'environnement de travail <span class="checkbox-counter">(0/5)</span></legend> <div class="checkbox-group"> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Harmonie (environnement de travail paisible, peu conflictuel)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Voyage (opportunité de se déplacer régulièrement)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Variété (diversité des tâches et des défis)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Organisation (structure claire et ordonnée)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Flexibilité (horaires adaptables, autonomie)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Indépendance (liberté de décision et d'action)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Justice (équité dans le traitement des personnes)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Propreté (environnement de travail net et agréable)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Défis (problèmes stimulants à résoudre)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Stabilité (peu de changements brusques)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Extérieur (travail en plein air, connexion avec la nature)</span></label> <label class="checkbox-label"><input type="checkbox" name="env_values"><span>Intérieur (travail en bureau ou environnement contrôlé)</span></label> </div> </fieldset>
+            <fieldset class="value-group"> <legend>Valeurs d'attentes professionnelles <span class="checkbox-counter">(0/5)</span></legend> <div class="checkbox-group"> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Formation continue (opportunités d'apprentissage constant)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Reconnaissance (crédit pour vos contributions et réalisations)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Revenus (rémunération généreuse)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Avancement (possibilités de promotion)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Leadership (occasions de diriger des équipes)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Stimulation intellectuelle (défis mentaux réguliers)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Aide aux autres (impact positif sur la vie des gens)</span></label> <label class="checkbox-label"><input type="checkbox" name="prof_values"><span>Sécurité (emploi stable et prévisible)</span></label> </div> </fieldset>
+            <fieldset class="value-group"> <legend>Valeurs de vie <span class="checkbox-counter">(0/5)</span></legend> <div class="checkbox-group"> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Service à Dieu (alignement avec la mission divine)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Intégrité (cohérence entre convictions et actions)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Famille (équilibre entre vie professionnelle et familiale)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Simplicité (style de vie non matérialiste)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Impact (influence positive à long terme)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Excellence (qualité supérieure dans tout ce que vous faites)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Créativité (expression originale et innovation)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Sagesse (acquisition et application de la connaissance)</span></label> <label class="checkbox-label"><input type="checkbox" name="life_values"><span>Communauté (connexion profonde avec les autres)</span></label> </div> </fieldset>
+            <div class="navigation"> <button onclick="previousSection()">Précédent</button> <button onclick="showResults()">Voir mes résultats</button> </div>
         </div>
 
-        <!-- Section Résultats -->
         <div class="section" id="section-results">
             <h2>Vos résultats</h2>
             <div id="results-content"></div>
-            <div class="navigation">
-                <button onclick="window.print()">Imprimer mes résultats</button>
-                <button onclick="restart()">Recommencer</button>
-            </div>
+            <div class="navigation"> <button onclick="window.print()">Imprimer mes résultats</button> <button onclick="restart()">Recommencer</button> </div>
         </div>
     </div>
+</div>
 
-    <script>
-        let currentSection = 0;
-        const sections = ['section-intro', 'section-personality', 'section-passions', 'section-capacities', 'section-values', 'section-results'];
+<script>
+    // --- VARIABLES GLOBALES ---
+    let currentSection = 0;
+    const sections = ['section-intro', 'section-personality', 'section-passions', 'section-capacities', 'section-values', 'section-results'];
+    const tocItems = document.querySelectorAll('#toc li');
 
-        function updateProgress() {
-            const progress = (currentSection / (sections.length - 1)) * 100;
-            document.getElementById('progress').style.width = progress + '%';
+    // --- FONCTIONS DE VALIDATION ET D'AFFICHAGE D'ERREUR ---
+    function validateSection(index) {
+        clearAllErrors();
+        const sectionId = sections[index];
+        const sectionElement = document.getElementById(sectionId);
+        if (!sectionElement) return null;
+
+        const radioGroups = sectionElement.querySelectorAll('.question-group');
+        for (const group of radioGroups) {
+            if (group.querySelectorAll('input[type="radio"]').length > 0 && !group.querySelector('input[type="radio"]:checked')) {
+                return { errorElement: group, message: 'Veuillez répondre à cette question pour continuer.' };
+            }
         }
 
-        function showSection(index) {
-            sections.forEach((sectionId, i) => {
-                const section = document.getElementById(sectionId);
-                if (i === index) {
-                    section.classList.add('active');
-                } else {
-                    section.classList.remove('active');
+        if (sectionId === 'section-values') {
+            const valueGroups = sectionElement.querySelectorAll('.value-group');
+            for (const group of valueGroups) {
+                const checkedCount = group.querySelectorAll('input[type="checkbox"]:checked').length;
+                if (checkedCount < 3) {
+                    return { errorElement: group, message: `Veuillez sélectionner au moins 3 valeurs dans cette catégorie (actuellement ${checkedCount}).` };
                 }
-            });
-            updateProgress();
-            window.scrollTo(0, 0);
-        }
-
-        function nextSection() {
-            if (currentSection < sections.length - 1) {
-                currentSection++;
-                showSection(currentSection);
             }
         }
+        return null;
+    }
 
-        function previousSection() {
-            if (currentSection > 0) {
-                currentSection--;
-                showSection(currentSection);
-            }
+    function displayError(errorElement, message) {
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message-inline';
+        errorDiv.textContent = message;
+        errorElement.appendChild(errorDiv);
+    }
+
+    function clearAllErrors() {
+        document.querySelectorAll('.error-message-inline').forEach(el => el.remove());
+    }
+
+    // --- FONCTIONS DE NAVIGATION ---
+    function updateDisplay() {
+        sections.forEach((sectionId, i) => document.getElementById(sectionId).classList.toggle('active', i === currentSection));
+        const progress = (currentSection / (sections.length - 2)) * 100;
+        document.getElementById('progress').style.width = (currentSection > 0 && currentSection < sections.length - 1 ? progress : (currentSection === 0 ? 0 : 100)) + '%';
+        tocItems.forEach((item, i) => item.classList.toggle('active', i === currentSection));
+        window.scrollTo(0, 0);
+    }
+
+    function nextSection() {
+        const validationResult = validateSection(currentSection);
+        if (validationResult) {
+            displayError(validationResult.errorElement, validationResult.message);
+            return;
         }
+        if (currentSection < sections.length - 1) {
+            currentSection++;
+            updateDisplay();
+        }
+    }
 
-        function restart() {
-            currentSection = 0;
-            showSection(currentSection);
-            document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(input => {
-                input.checked = false;
+    function previousSection() {
+        clearAllErrors();
+        if (currentSection > 0) {
+            currentSection--;
+            updateDisplay();
+        }
+    }
+
+    function restart() {
+        document.location.reload();
+    }
+
+    // --- LOGIQUE DE CALCUL DES RÉSULTATS ---
+    function calculatePersonalityResults() {
+        const results = [];
+        document.querySelectorAll('#section-personality h3').forEach((h3, index) => {
+            const factorIndex = index + 1;
+            let scoreA = 0, scoreB = 0;
+            const questionNames = [...new Set(Array.from(document.querySelectorAll(`#section-personality input[name^="f${factorIndex}q"]`)).map(q => q.name))];
+            questionNames.forEach(name => {
+                const sel = document.querySelector(`input[name="${name}"]:checked`);
+                if (sel) { sel.value === 'A' ? scoreA++ : scoreB++; }
             });
+            if (scoreA + scoreB > 0) {
+                const factorName = h3.textContent.split(':')[1].trim();
+                const [traitA, traitB] = factorName.split('/');
+                const percentageB = (scoreB / (scoreA + scoreB)) * 100;
+                results.push({ name: factorName, score: percentageB, tendency: percentageB > 50 ? traitB : traitA });
+            }
+        });
+        return results;
+    }
+
+    function calculatePassionResults() {
+        const results = [];
+        document.querySelectorAll('#section-passions h3').forEach(h3 => {
+            const domainName = h3.textContent;
+            const prefix = domainName.split(' ')[1].substring(0,4);
+            let total = 0, count = 0;
+            for (let i = 1; i <= 5; i++) {
+                const sel = document.querySelector(`input[name^="${prefix}${i}"]:checked`);
+                if (sel) { total += parseInt(sel.value); count++; }
+            }
+            if (count > 0) {
+                const avg = total / count;
+                results.push({ name: domainName, score: (avg / 5) * 100, average: avg.toFixed(1) });
+            }
+        });
+        return results.sort((a, b) => b.score - a.score);
+    }
+
+    function calculateCapacityResults() {
+        const results = [];
+        document.querySelectorAll('#section-capacities h3').forEach(h3 => {
+            const name = h3.textContent;
+            let currentElement = h3.nextElementSibling, total = 0, count = 0;
+            while (currentElement && currentElement.classList.contains('question-group')) {
+                const sel = currentElement.querySelector('input[type="radio"]:checked');
+                if(sel) { total += parseInt(sel.value); count++; }
+                currentElement = currentElement.nextElementSibling;
+            }
+            if (count > 0) {
+                const avg = total / count;
+                results.push({ name, score: (avg / 5) * 100, average: avg.toFixed(1) });
+            }
+        });
+        return results.sort((a, b) => b.score - a.score);
+    }
+
+    function calculateValueResults() {
+        const results = [];
+        document.querySelectorAll('#section-values .value-group').forEach(group => {
+            const name = group.querySelector('legend').textContent.replace(/\s\(\d\/\d\)/, '').trim();
+            const selected = group.querySelectorAll('input[type="checkbox"]:checked');
+            const values = Array.from(selected).map(cb => cb.closest('.checkbox-label').querySelector('span').textContent);
+            if (values.length > 0) {
+                results.push({ name, values });
+            }
+        });
+        return results;
+    }
+
+    // --- AFFICHAGE DES RÉSULTATS ---
+    function showResults() {
+        const validationResult = validateSection(currentSection);
+        if (validationResult) {
+            displayError(validationResult.errorElement, validationResult.message);
+            return;
         }
 
-        function calculatePersonalityResults() {
-            const factors = [
-                { name: 'Accommodant/Meneur', questions: ['f1q1', 'f1q2', 'f1q3'] },
-                { name: 'Introverti/Extraverti', questions: ['f2q1', 'f2q2', 'f2q3'] },
-                { name: 'Détaché/Compatissant', questions: ['f3q1', 'f3q2', 'f3q3'] },
-                { name: 'Non-structuré/Consciencieux', questions: ['f4q1', 'f4q2', 'f4q3'] },
-                { name: 'Prudent/Aventureux', questions: ['f5q1', 'f5q2', 'f5q3'] },
-                { name: 'Conventionnel/Innovateur', questions: ['f6q1', 'f6q2', 'f6q3'] }
-            ];
+        const resultsContent = document.getElementById('results-content');
+        resultsContent.innerHTML = '';
 
-            const results = [];
-            
-            factors.forEach(factor => {
-                let scoreA = 0;
-                let scoreB = 0;
-                
-                factor.questions.forEach(question => {
-                    const selected = document.querySelector(`input[name="${question}"]:checked`);
-                    if (selected) {
-                        if (selected.value === 'A') scoreA++;
-                        else scoreB++;
+        const personalityResults = calculatePersonalityResults();
+        if (personalityResults.length > 0) { let html = '<div class="results"><h3>Vos traits de personnalité</h3>'; personalityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%; background: linear-gradient(90deg, #667eea, #764ba2);">${r.score.toFixed(0)}%</div></div><p>Tendance dominante : <strong>${r.tendency}</strong></p></div>`; }); resultsContent.innerHTML += html + '</div>'; }
+
+        const passionResults = calculatePassionResults();
+        if (passionResults.length > 0) { let html = '<div class="results"><h3>Vos centres d\'intérêt dominants</h3>'; passionResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
+
+        const capacityResults = calculateCapacityResults();
+        if (capacityResults.length > 0) { let html = '<div class="results"><h3>Vos capacités naturelles</h3>'; capacityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
+
+        const valueResults = calculateValueResults();
+        if (valueResults.length > 0) {
+            let html = '<div class="results"><h3>Vos valeurs prioritaires</h3>';
+            valueResults.forEach(r => {
+                html += `<div class="value-card"><h4>${r.name}</h4><ul>${r.values.map(v => `<li>${v.split('(')[0].trim()}</li>`).join('')}</ul></div>`;
+            });
+            resultsContent.innerHTML += html + '</div>';
+        }
+
+        currentSection = sections.length - 1;
+        updateDisplay();
+    }
+
+    // --- GESTION DES ÉVÉNEMENTS ---
+    document.addEventListener('DOMContentLoaded', () => {
+        updateDisplay();
+
+        document.querySelectorAll('.value-group').forEach(group => {
+            const checkboxes = group.querySelectorAll('input[type="checkbox"]');
+            const counterSpan = group.querySelector('.checkbox-counter');
+            group.addEventListener('change', (event) => {
+                if (event.target.type === 'checkbox') clearAllErrors();
+                const checkedCount = group.querySelectorAll('input[type="checkbox"]:checked').length;
+                if (counterSpan) counterSpan.textContent = `(${checkedCount}/5)`;
+                const limitReached = checkedCount >= 5;
+                checkboxes.forEach(cb => {
+                    if (!cb.checked) {
+                        cb.disabled = limitReached;
+                        cb.closest('.checkbox-label').classList.toggle('disabled', limitReached);
                     }
                 });
-                
-                const total = scoreA + scoreB;
-                if (total > 0) {
-                    const percentageB = (scoreB / total) * 100;
-                    results.push({
-                        name: factor.name,
-                        score: percentageB,
-                        tendency: percentageB > 50 ? factor.name.split('/')[1] : factor.name.split('/')[0]
-                    });
-                }
-            });
-            
-            return results;
-        }
-
-        function calculatePassionResults() {
-            const domains = [
-                { name: 'Domaine mécanique', questions: ['mech1', 'mech2', 'mech3', 'mech4', 'mech5'] },
-                { name: 'Domaine service', questions: ['serv1', 'serv2', 'serv3', 'serv4', 'serv5'] },
-                { name: 'Domaine analyse', questions: ['anal1', 'anal2', 'anal3', 'anal4', 'anal5'] },
-                { name: 'Domaine influence', questions: ['infl1', 'infl2', 'infl3', 'infl4', 'infl5'] },
-                { name: 'Domaine expression', questions: ['expr1', 'expr2', 'expr3', 'expr4', 'expr5'] }
-            ];
-
-            const results = [];
-            
-            domains.forEach(domain => {
-                let total = 0;
-                let count = 0;
-                
-                domain.questions.forEach(question => {
-                    const selected = document.querySelector(`input[name="${question}"]:checked`);
-                    if (selected) {
-                        total += parseInt(selected.value);
-                        count++;
-                    }
-                });
-                
-                if (count > 0) {
-                    const average = total / count;
-                    results.push({
-                        name: domain.name,
-                        score: (average / 5) * 100,
-                        average: average.toFixed(1)
-                    });
-                }
-            });
-            
-            return results.sort((a, b) => b.score - a.score);
-        }
-
-        function calculateCapacityResults() {
-            // Simplifié pour la démonstration - normalement inclurait toutes les 14 capacités
-            const capacities = [
-                { name: "Capacité d'équipe", questions: ['cap_team1', 'cap_team2', 'cap_team3', 'cap_team4'] },
-                { name: 'Capacité relationnelle', questions: ['cap_rel1', 'cap_rel2', 'cap_rel3', 'cap_rel4'] }
-            ];
-
-            const results = [];
-            
-            capacities.forEach(capacity => {
-                let total = 0;
-                let count = 0;
-                
-                capacity.questions.forEach(question => {
-                    const selected = document.querySelector(`input[name="${question}"]:checked`);
-                    if (selected) {
-                        total += parseInt(selected.value);
-                        count++;
-                    }
-                });
-                
-                if (count > 0) {
-                    const average = total / count;
-                    results.push({
-                        name: capacity.name,
-                        score: (average / 5) * 100,
-                        average: average.toFixed(1)
-                    });
-                }
-            });
-            
-            return results.sort((a, b) => b.score - a.score);
-        }
-
-        function calculateValueResults() {
-            const categories = [
-                { name: "Valeurs d'environnement de travail", inputName: 'env_values' },
-                { name: "Valeurs d'attentes professionnelles", inputName: 'prof_values' },
-                { name: 'Valeurs de vie', inputName: 'life_values' }
-            ];
-
-            const results = [];
-            
-            categories.forEach(category => {
-                const selected = document.querySelectorAll(`input[name="${category.inputName}"]:checked`);
-                const values = [];
-                
-                selected.forEach(checkbox => {
-                    const label = checkbox.parentElement.querySelector('span').textContent;
-                    values.push(label);
-                });
-                
-                if (values.length > 0) {
-                    results.push({
-                        name: category.name,
-                        values: values
-                    });
-                }
-            });
-            
-            return results;
-        }
-
-        function showResults() {
-            const resultsContent = document.getElementById('results-content');
-            resultsContent.innerHTML = '';
-
-            // Résultats de personnalité
-            const personalityResults = calculatePersonalityResults();
-            if (personalityResults.length > 0) {
-                resultsContent.innerHTML += '<div class="results"><h3>Vos traits de personnalité</h3>';
-                personalityResults.forEach(result => {
-                    resultsContent.innerHTML += `
-                        <div class="result-item">
-                            <h4>${result.name}</h4>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: ${result.score}%">${result.score.toFixed(0)}%</div>
-                            </div>
-                            <p>Tendance dominante : <strong>${result.tendency}</strong></p>
-                        </div>
-                    `;
-                });
-                resultsContent.innerHTML += '</div>';
-            }
-
-            // Résultats des passions
-            const passionResults = calculatePassionResults();
-            if (passionResults.length > 0) {
-                resultsContent.innerHTML += '<div class="results"><h3>Vos centres d\'intérêt dominants</h3>';
-                passionResults.forEach(result => {
-                    resultsContent.innerHTML += `
-                        <div class="result-item">
-                            <h4>${result.name}</h4>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: ${result.score}%">${result.average}/5</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                resultsContent.innerHTML += '</div>';
-            }
-
-            // Résultats des capacités
-            const capacityResults = calculateCapacityResults();
-            if (capacityResults.length > 0) {
-                resultsContent.innerHTML += '<div class="results"><h3>Vos capacités naturelles</h3>';
-                capacityResults.forEach(result => {
-                    resultsContent.innerHTML += `
-                        <div class="result-item">
-                            <h4>${result.name}</h4>
-                            <div class="score-bar">
-                                <div class="score-fill" style="width: ${result.score}%">${result.average}/5</div>
-                            </div>
-                        </div>
-                    `;
-                });
-                resultsContent.innerHTML += '</div>';
-            }
-
-            // Résultats des valeurs
-            const valueResults = calculateValueResults();
-            if (valueResults.length > 0) {
-                resultsContent.innerHTML += '<div class="results"><h3>Vos valeurs prioritaires</h3>';
-                valueResults.forEach(result => {
-                    resultsContent.innerHTML += `
-                        <div class="result-item">
-                            <h4>${result.name}</h4>
-                            <ul>
-                                ${result.values.map(value => `<li>${value}</li>`).join('')}
-                            </ul>
-                        </div>
-                    `;
-                });
-                resultsContent.innerHTML += '</div>';
-            }
-
-            currentSection = sections.length - 1;
-            showSection(currentSection);
-        }
-
-        // Validation des valeurs (max 5 par catégorie)
-        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-            checkbox.addEventListener('change', function() {
-                const name = this.name;
-                const checked = document.querySelectorAll(`input[name="${name}"]:checked`);
-                const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
-                
-                if (checked.length >= 5) {
-                    checkboxes.forEach(cb => {
-                        if (!cb.checked) {
-                            cb.disabled = true;
-                        }
-                    });
-                } else {
-                    checkboxes.forEach(cb => {
-                        cb.disabled = false;
-                    });
-                }
             });
         });
-    </script>
+
+        tocItems.forEach((item, targetIndex) => {
+            item.addEventListener('click', () => {
+                clearAllErrors();
+                if (targetIndex <= currentSection) {
+                    currentSection = targetIndex;
+                    updateDisplay();
+                    return;
+                }
+                for (let i = currentSection; i < targetIndex; i++) {
+                    const validationResult = validateSection(i);
+                    if (validationResult) {
+                        currentSection = i;
+                        updateDisplay();
+                        const message = sections[i] === 'section-values'
+                            ? 'Veuillez compléter cette catégorie (3 valeurs minimum) avant de continuer.'
+                            : 'Veuillez compléter cette section avant de continuer.';
+                        displayError(validationResult.errorElement, message);
+                        return;
+                    }
+                }
+                currentSection = targetIndex;
+                updateDisplay();
+            });
+        });
+    });
+</script>
 </body>
 </html>
