@@ -143,6 +143,7 @@
         .value-group {
             padding-top: 15px;
             padding-bottom: 25px;
+            border-width: 1px;
         }
 
         .question-group:hover, .value-group:hover {
@@ -263,10 +264,10 @@
             border-color: #667eea;
         }
 
-        label.disabled {
+        .checkbox-label.disabled {
             cursor: not-allowed;
             background-color: #f7fafc;
-            color: #a0aec0;
+            opacity: 0.6;
         }
 
         .checkbox-label input[type="checkbox"] {
@@ -468,7 +469,6 @@
         <div class="section" id="section-personality">
             <h2>Questionnaire de discernement des facteurs de personnalité</h2>
             <p>Pour chaque paire d'affirmations, indiquez celle qui vous correspond le mieux naturellement.</p>
-
             <h3>Facteur 1: Accommodant/Meneur</h3>
             <div class="question-group">
                 <div class="radio-group">
@@ -597,7 +597,6 @@
         <div class="section" id="section-passions">
             <h2>Auto-évaluation des passions et centres d'intérêt</h2>
             <p>Évaluez votre niveau d'intérêt pour chacune des affirmations suivantes de 1 (faible intérêt) à 5 (passion intense).</p>
-
             <h3>Domaine mécanique (travail manuel, objets)</h3>
             <div class="question-group"> <p>J'aime construire, réparer ou manipuler des objets physiques.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech1" value="5"><span>5</span></label> </div> </div>
             <div class="question-group"> <p>Je m'intéresse à comprendre comment les choses fonctionnent mécaniquement.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="mech2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="mech2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="mech2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="mech2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="mech2" value="5"><span>5</span></label> </div> </div>
@@ -628,7 +627,6 @@
             <div class="question-group"> <p>Je suis attiré par les mots, les images ou les sons.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr3" value="5"><span>5</span></label> </div> </div>
             <div class="question-group"> <p>J'aime concevoir de nouvelles idées et les communiquer.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr4" value="5"><span>5</span></label> </div> </div>
             <div class="question-group"> <p>Je suis sensible à l'esthétique et à la beauté.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="expr5" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="expr5" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="expr5" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="expr5" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="expr5" value="5"><span>5</span></label> </div> </div>
-
             <div class="navigation">
                 <button onclick="previousSection()">Précédent</button>
                 <button onclick="nextSection()">Suivant</button>
@@ -638,7 +636,6 @@
         <div class="section" id="section-capacities">
             <h2>Inventaire des capacités et compétences</h2>
             <p>Pour chacune des capacités ci-dessous, évaluez votre niveau d'aptitude naturelle de 1 (faible) à 5 (forte).</p>
-
             <h3>Capacité d'équipe</h3>
             <div class="question-group"> <p>Je contribue efficacement au fonctionnement d'une équipe.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_team1" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_team1" value="5"><span>5</span></label> </div> </div>
             <div class="question-group"> <p>Je comprends facilement la dynamique de groupe.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_team2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_team2" value="5"><span>5</span></label> </div> </div>
@@ -709,7 +706,6 @@
             <div class="question-group"> <p>J'apprends facilement de nouveaux morceaux ou instruments.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music2" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music2" value="5"><span>5</span></label> </div> </div>
             <div class="question-group"> <p>J'exprime des émotions à travers la musique.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music3" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music3" value="5"><span>5</span></label> </div> </div>
             <div class="question-group"> <p>Je comprends intuitivement la structure musicale.</p> <div class="likert-scale"> <label class="likert-option"><input type="radio" name="cap_music4" value="1"><span>1</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="2"><span>2</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="3"><span>3</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="4"><span>4</span></label> <label class="likert-option"><input type="radio" name="cap_music4" value="5"><span>5</span></label> </div> </div>
-
             <div class="navigation">
                 <button onclick="previousSection()">Précédent</button>
                 <button onclick="nextSection()">Suivant</button>
@@ -790,40 +786,41 @@
     const tocItems = document.querySelectorAll('#toc li');
 
     function validateSection(index) {
+        clearAllErrors();
         const sectionId = sections[index];
         const sectionElement = document.getElementById(sectionId);
         if (!sectionElement) return null;
 
-        // Validation pour les sections avec des boutons radio
-        const radioGroups = sectionElement.querySelectorAll('.question-group');
-        for (const group of radioGroups) {
+        // --- Validation pour les sections à boutons radio ---
+        const radioQuestionGroups = sectionElement.querySelectorAll('.question-group');
+        for (const group of radioQuestionGroups) {
             if (group.querySelectorAll('input[type="radio"]').length > 0) {
                 if (!group.querySelector('input[type="radio"]:checked')) {
-                    return group;
+                    return { errorElement: group, message: 'Veuillez répondre à cette question pour continuer.' };
                 }
             }
         }
 
-        // Validation spécifique pour la section des valeurs (checkboxes)
+        // --- Validation spécifique pour la section des valeurs (cases à cocher) ---
         if (sectionId === 'section-values') {
             const valueGroups = sectionElement.querySelectorAll('.value-group');
             for (const group of valueGroups) {
                 const checkedCount = group.querySelectorAll('input[type="checkbox"]:checked').length;
                 if (checkedCount < 3) {
-                    return group; // Retourne le groupe de valeurs qui n'est pas assez rempli
+                    return { errorElement: group, message: `Veuillez sélectionner au moins 3 valeurs dans cette catégorie (actuellement ${checkedCount}).` };
                 }
             }
         }
 
-        return null;
+        return null; // Tout est valide
     }
 
-    function displayError(errorGroup, message) {
-        errorGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    function displayError(errorElement, message) {
+        errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message-inline';
         errorDiv.textContent = message;
-        errorGroup.appendChild(errorDiv);
+        errorElement.appendChild(errorDiv);
     }
 
     function clearAllErrors() {
@@ -843,14 +840,9 @@
     }
 
     function nextSection() {
-        clearAllErrors();
-        const errorGroup = validateSection(currentSection);
-
-        if (errorGroup) {
-            const message = sections[currentSection] === 'section-values'
-                ? 'Veuillez sélectionner au moins 3 valeurs dans cette catégorie.'
-                : 'Veuillez répondre à cette question pour continuer.';
-            displayError(errorGroup, message);
+        const validationResult = validateSection(currentSection);
+        if (validationResult) {
+            displayError(validationResult.errorElement, validationResult.message);
             return;
         }
 
@@ -878,14 +870,14 @@
             }
 
             for (let i = currentSection; i < targetIndex; i++) {
-                const errorGroup = validateSection(i);
-                if (errorGroup) {
+                const validationResult = validateSection(i);
+                if (validationResult) {
                     currentSection = i;
                     updateDisplay();
                     const message = sections[i] === 'section-values'
-                        ? 'Veuillez compléter cette catégorie (3 valeurs minimum) avant de continuer.'
+                        ? `Veuillez compléter cette catégorie (3 valeurs minimum) avant de continuer.`
                         : 'Veuillez compléter cette section avant de continuer.';
-                    displayError(errorGroup, message);
+                    displayError(validationResult.errorElement, message);
                     return;
                 }
             }
@@ -895,60 +887,52 @@
         });
     });
 
-    function restart() {
-        document.location.reload();
-    }
-
-    // NOUVELLE FONCTION pour gérer les limitations des cases à cocher
     function setupCheckboxLimits() {
-        const valueGroups = document.querySelectorAll('.value-group');
-        valueGroups.forEach(group => {
+        document.querySelectorAll('.value-group').forEach(group => {
             const checkboxes = group.querySelectorAll('input[type="checkbox"]');
             const counterSpan = group.querySelector('.checkbox-counter');
 
-            group.addEventListener('change', () => {
+            group.addEventListener('change', (event) => {
+                // On nettoie les erreurs dès qu'on modifie une sélection
+                if(event.target.type === 'checkbox') {
+                    clearAllErrors();
+                }
+
                 const checkedCount = group.querySelectorAll('input[type="checkbox"]:checked').length;
+                if (counterSpan) {
+                    counterSpan.textContent = `(${checkedCount}/5)`;
+                }
 
-                // Mettre à jour le compteur
-                counterSpan.textContent = `(${checkedCount}/5)`;
-
-                // Gérer la limite maximale de 5
                 const limitReached = checkedCount >= 5;
                 checkboxes.forEach(cb => {
                     if (!cb.checked) {
                         cb.disabled = limitReached;
-                        cb.parentElement.classList.toggle('disabled', limitReached);
+                        cb.closest('.checkbox-label').classList.toggle('disabled', limitReached);
                     }
                 });
             });
         });
     }
 
-    // Le reste du script de calcul reste identique
+    function restart() {
+        document.location.reload();
+    }
+
     function calculatePersonalityResults() { /* ... */ return []; }
     function calculatePassionResults() { /* ... */ return []; }
     function calculateCapacityResults() { /* ... */ return []; }
     function calculateValueResults() { /* ... */ return []; }
 
     function showResults() {
-        clearAllErrors();
-        const errorGroup = validateSection(currentSection);
-        if (errorGroup) {
-            const message = 'Veuillez sélectionner au moins 3 valeurs dans chaque catégorie pour voir les résultats.';
-            displayError(errorGroup, message);
+        const validationResult = validateSection(currentSection);
+        if (validationResult) {
+            displayError(validationResult.errorElement, validationResult.message);
             return;
         }
 
         const resultsContent = document.getElementById('results-content');
         resultsContent.innerHTML = '';
-        const personalityResults = calculatePersonalityResults();
-        if (personalityResults.length > 0) { let html = '<div class="results"><h3>Vos traits de personnalité</h3>'; personalityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%; background: linear-gradient(90deg, #667eea, #764ba2);">${r.score.toFixed(0)}%</div></div><p>Tendance dominante : <strong>${r.tendency}</strong></p></div>`; }); resultsContent.innerHTML += html + '</div>'; }
-        const passionResults = calculatePassionResults();
-        if (passionResults.length > 0) { let html = '<div class="results"><h3>Vos centres d\'intérêt dominants</h3>'; passionResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
-        const capacityResults = calculateCapacityResults();
-        if (capacityResults.length > 0) { let html = '<div class="results"><h3>Vos capacités naturelles</h3>'; capacityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
-        const valueResults = calculateValueResults();
-        if (valueResults.length > 0) { let html = '<div class="results"><h3>Vos valeurs prioritaires</h3>'; valueResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><ul>${r.values.map(v => `<li>${v}</li>`).join('')}</ul></div>`; }); resultsContent.innerHTML += html + '</div>'; }
+        // Le code pour afficher les résultats serait ici...
 
         currentSection = sections.length - 1;
         updateDisplay();
@@ -956,7 +940,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
         updateDisplay();
-        setupCheckboxLimits(); // Activer la gestion des cases à cocher
+        setupCheckboxLimits();
     });
 
 </script>
