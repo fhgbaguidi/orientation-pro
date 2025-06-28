@@ -219,7 +219,7 @@
         const card = document.createElement('div');
         card.className = 'response-card';
         const results = record.results;
-        const responseDate = new Date(record.date).toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short'});
+        const responseDate = new Date(record.date).toLocaleString();
 
         card.innerHTML = `
                 <div class="response-header"><strong>Réponse #${record.id}</strong> - Soumis le ${responseDate}</div>
