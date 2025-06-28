@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Résultats & Statistiques - Atelier Vocation</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: #f4f7f9;
+            padding: 30px;
+            color: #333;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.2em;
+        }
+
+        /* --- NOUVEAUX STYLES POUR LES ONGLETS PRINCIPAUX --- */
+        .main-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            background-color: #eef2f7;
+            padding: 5px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .main-tab-button {
+            flex: 1;
+            padding: 12px 20px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            color: #34495e;
+            transition: all 0.3s ease;
+        }
+        .main-tab-button.active {
+            background: white;
+            color: #667eea;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .main-tab-pane {
+            display: none;
+        }
+        .main-tab-pane.active {
+            display: block;
+        }
+
+        /* Styles pour les statistiques globales */
+        #summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .stat-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.05);
+            border: 1px solid #eef2f7;
+        }
+        .stat-card .stat-title { font-size: 1em; color: #7f8c8d; margin-bottom: 10px; }
+        .stat-card .stat-value { font-size: 2.5em; font-weight: 700; color: #667eea; }
+
+        /* Styles pour chaque carte de réponse */
+        #responses-container { display: grid; gap: 30px; }
+        .response-card {
+            background: white; border-radius: 15px; box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+            overflow: hidden; border: 1px solid #eef2f7;
+        }
+        .response-header { padding: 20px 25px; background-color: #f8f9fa; border-bottom: 1px solid #eef2f7; color: #34495e; }
+        .response-header strong { font-size: 1.2em; }
+        .response-content { padding: 25px; }
+
+        /* Styles pour les onglets INTERNES aux cartes */
+        .inner-tab-buttons { display: flex; border-bottom: 2px solid #eef2f7; margin-bottom: 25px; }
+        .inner-tab-button {
+            padding: 10px 20px; border: none; background: transparent; cursor: pointer; font-size: 1em;
+            color: #7f8c8d; font-weight: 500; position: relative; transition: color 0.3s ease;
+        }
+        .inner-tab-button:hover { color: #667eea; }
+        .inner-tab-button.active { color: #667eea; font-weight: 600; }
+        .inner-tab-button.active::after {
+            content: ''; position: absolute; bottom: -2px; left: 0;
+            width: 100%; height: 2px; background-color: #667eea;
+        }
+        .inner-tab-pane { display: none; animation: fadeIn 0.4s ease; }
+        .inner-tab-pane.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* Styles pour la visualisation des données DANS les cartes */
+        .result-item, .value-card-inner { margin-bottom: 20px; padding: 15px; background-color: #fdfdff; border-radius: 10px; border: 1px solid #f0f0f0; }
+        .result-item h4, .value-card-inner h4 { font-size: 1.1em; color: #34495e; margin-bottom: 10px; }
+        .score-bar { width: 100%; height: 25px; background: #eef2f7; border-radius: 5px; overflow: hidden; position: relative; }
+        .score-fill { height: 100%; background: linear-gradient(90deg, #89f7fe 0%, #66a6ff 100%); transition: width 1s ease; display: flex; align-items: center; justify-content: flex-start; padding-left: 10px; color: white; font-weight: bold; }
+        .value-card-inner ul { list-style-type: none; padding-left: 0; }
+        .value-card-inner li { padding: 5px 0 5px 20px; position: relative; color: #34495e; }
+        .value-card-inner li::before { content: '✓'; color: #2ecc71; position: absolute; left: 0; }
+
+        /* Styles pour les graphiques de statistiques */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 30px; }
+        .stat-card h2 { font-size: 1.5em; color: #667eea; margin-bottom: 20px; }
+        #loading { text-align: center; font-size: 1.5em; color: #7f8c8d; padding: 50px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Analyse des Réponses</h1>
+    <p class="subtitle" id="response-count">Visualisation des données de l'atelier</p>
+
+    <div class="main-tabs">
+        <button id="tab-btn-raw" class="main-tab-button active">Résultats Individuels</button>
+        <button id="tab-btn-stats" class="main-tab-button">Statistiques Globales</button>
+    </div>
+
+    <div id="loading">Chargement des données...</div>
+
+    <div id="pane-raw" class="main-tab-pane active">
+        <section id="summary-stats"></section>
+        <section id="responses-container"></section>
+    </div>
+
+    <div id="pane-stats" class="main-tab-pane">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h2>Répartition des Traits de Personnalité</h2>
+                <canvas id="personalityChart"></canvas>
+            </div>
+            <div class="stat-card">
+                <h2>Top 10 des Valeurs Prioritaires</h2>
+                <canvas id="valuesChart"></canvas>
+            </div>
+            <div class="stat-card">
+                <h2>Scores Moyens des Passions</h2>
+                <canvas id="passionsChart"></canvas>
+            </div>
+            <div class="stat-card">
+                <h2>Scores Moyens des Capacités</h2>
+                <canvas id="capacitiesChart"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const SUPABASE_URL = 'https://axecogumnpqsufgcgcnk.supabase.co'; // À remplacer
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4ZWNvZ3VtbnBxc3VmZ2NnY25rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5MDYyMjEsImV4cCI6MjAzOTQ4MjIyMX0.dJY8f-VL7owcUkLVNVsSloMwJwV7jyBThluebRV0cHo'; // À remplacer
+
+    // --- FONCTION PRINCIPALE AU CHARGEMENT ---
+    document.addEventListener('DOMContentLoaded', async () => {
+        const loadingDiv = document.getElementById('loading');
+        const allData = await fetchDataFromSupabase();
+
+        if (allData) {
+            loadingDiv.style.display = 'none';
+
+            // On peuple les deux onglets avec les mêmes données
+            populateRawResultsPane(allData);
+            populateStatsPane(allData);
+
+            // On active la logique des onglets principaux
+            setupMainTabs();
+        } else {
+            loadingDiv.textContent = `Erreur lors du chargement des données. Vérifiez la console pour plus de détails.`;
+        }
+    });
+
+    // --- RÉCUPÉRATION DES DONNÉES (UNE SEULE FOIS) ---
+    async function fetchDataFromSupabase() {
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/orientation_responses?select=*&order=created_at.desc`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            if (!response.ok) throw new Error(`Erreur HTTP: ${response.status}`);
+            return await response.json();
+        } catch (error) {
+            console.error("Erreur de chargement depuis Supabase:", error);
+            return null;
+        }
+    }
+
+    // --- LOGIQUE POUR L'ONGLET 1 : RÉSULTATS INDIVIDUELS ---
+    function populateRawResultsPane(data) {
+        const responsesContainer = document.getElementById('responses-container');
+        const summaryContainer = document.getElementById('summary-stats');
+
+        if (data.length === 0) {
+            responsesContainer.innerHTML = '<p class="subtitle">Aucune réponse n\'a encore été enregistrée.</p>';
+            return;
+        }
+
+        summaryContainer.innerHTML = `<div class="stat-card"><div class="stat-title">Total des Réponses</div><div class="stat-value">${data.length}</div></div>`;
+        data.forEach((record, index) => responsesContainer.appendChild(createResponseCard(record, index)));
+    }
+
+    function createResponseCard(record, index) {
+        const card = document.createElement('div');
+        card.className = 'response-card';
+        const results = record.results;
+        const responseDate = new Date(record.date).toLocaleString('fr-FR', { dateStyle: 'long', timeStyle: 'short'});
+
+        card.innerHTML = `
+                <div class="response-header"><strong>Réponse #${record.id}</strong> - Soumis le ${responseDate}</div>
+                <div class="response-content">
+                    <div class="inner-tab-buttons">
+                        <button class="inner-tab-button active" data-tab="personality-${index}">Personnalité</button>
+                        <button class="inner-tab-button" data-tab="passions-${index}">Passions</button>
+                        <button class="inner-tab-button" data-tab="capacities-${index}">Capacités</button>
+                        <button class="inner-tab-button" data-tab="values-${index}">Valeurs</button>
+                    </div>
+                    <div class="tab-content">
+                        <div class="inner-tab-pane active" id="personality-${index}">${renderPersonality(results.personality)}</div>
+                        <div class="inner-tab-pane" id="passions-${index}">${renderIndividualScores(results.passions)}</div>
+                        <div class="inner-tab-pane" id="capacities-${index}">${renderIndividualScores(results.capacities)}</div>
+                        <div class="inner-tab-pane" id="values-${index}">${renderValues(results.values)}</div>
+                    </div>
+                </div>`;
+
+        card.querySelector('.inner-tab-buttons').addEventListener('click', e => {
+            if (e.target.tagName === 'BUTTON') {
+                const tabId = e.target.dataset.tab;
+                card.querySelectorAll('.inner-tab-button').forEach(btn => btn.classList.remove('active'));
+                e.target.classList.add('active');
+                card.querySelectorAll('.inner-tab-pane').forEach(pane => pane.classList.toggle('active', pane.id === tabId));
+            }
+        });
+        return card;
+    }
+
+    function renderPersonality(data) { /* ... */ return !data || data.length === 0 ? '<p>Pas de données.</p>' : data.map(item => `<div class="result-item"><h4>${item.name}</h4><p>Tendance dominante : <strong>${item.tendency}</strong></p></div>`).join(''); }
+    function renderIndividualScores(data) { /* ... */ return !data || data.length === 0 ? '<p>Pas de données.</p>' : data.map(item => `<div class="result-item"><h4>${item.name}</h4><div class="score-bar"><div class="score-fill" style="width:${item.score}%">${item.average} / 5</div></div></div>`).join(''); }
+    function renderValues(data) { /* ... */  return !data || data.length === 0 ? '<p>Pas de données.</p>' : data.map(item => `<div class="value-card-inner"><h4>${item.name}</h4><ul>${item.values.map(v => `<li>${v.split('(')[0].trim()}</li>`).join('')}</ul></div>`).join('');}
+
+    // --- LOGIQUE POUR L'ONGLET 2 : STATISTIQUES GLOBALES ---
+    function populateStatsPane(allData) {
+        document.getElementById('response-count').textContent = `Analyse des tendances sur ${allData.length} réponses`;
+        processPersonalityStats(allData);
+        processValuesStats(allData);
+        processAggregateScores(allData, 'passions', 'passionsChart', 'Scores Moyens des Passions');
+        processAggregateScores(allData, 'capacites', 'capacitiesChart', 'Scores Moyens des Capacités');
+    }
+
+    function processPersonalityStats(allData) {
+        const aggregates = {};
+        allData.forEach(record => {
+            if (record.results.personality) {
+                record.results.personality.forEach(trait => {
+                    const [traitA, traitB] = trait.name.split('/');
+                    aggregates[traitA] = (aggregates[traitA] || 0) + (100 - trait.score);
+                    aggregates[traitB] = (aggregates[traitB] || 0) + trait.score;
+                });
+            }
+        });
+        const labels = Object.keys(aggregates);
+        const data = labels.map(label => (aggregates[label] / allData.length).toFixed(1));
+        renderChart('personalityChart', 'bar', 'Répartition des traits (%)', labels, data, false, '#667eea');
+    }
+
+    function processValuesStats(allData) {
+        const valueCounts = {};
+        allData.forEach(record => {
+            if(record.results.values) {
+                record.results.values.forEach(category => category.values.forEach(value => {
+                    const cleanValue = value.split('(')[0].trim();
+                    valueCounts[cleanValue] = (valueCounts[cleanValue] || 0) + 1;
+                }));
+            }
+        });
+        const sortedValues = Object.entries(valueCounts).sort(([,a],[,b]) => b-a).slice(0, 10);
+        renderChart('valuesChart', 'bar', 'Nombre de sélections', sortedValues.map(item => item[0]), sortedValues.map(item => item[1]), true, '#764ba2');
+    }
+
+    function processAggregateScores(allData, category, chartId, chartLabel) {
+        const scoreAggregates = {};
+        allData.forEach(record => {
+            if (record.results[category]) {
+                record.results[category].forEach(item => {
+                    scoreAggregates[item.name] = scoreAggregates[item.name] || { total: 0, count: 0 };
+                    scoreAggregates[item.name].total += parseFloat(item.average);
+                    scoreAggregates[item.name].count += 1;
+                });
+            }
+        });
+        const averages = Object.entries(scoreAggregates).map(([name, data]) => ({ name, average: (data.total / data.count) }));
+        const sortedAverages = averages.sort((a,b) => b.average - a.average);
+        renderChart(chartId, 'bar', 'Score Moyen (/5)', sortedAverages.map(item => item.name), sortedAverages.map(item => item.average.toFixed(2)), true, '#2ecc71');
+    }
+
+    function renderChart(canvasId, type, label, labels, data, isHorizontal = false, color = '#88aaff') {
+        const ctx = document.getElementById(canvasId);
+        if (!ctx) return;
+        new Chart(ctx.getContext('2d'), {
+            type: type,
+            data: { labels, datasets: [{ label, data, backgroundColor: color }] },
+            options: {
+                indexAxis: isHorizontal ? 'y' : 'x',
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { x: { beginAtZero: true, max: isHorizontal ? 5 : undefined }, y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    // --- GESTION DES ONGLETS PRINCIPAUX ---
+    function setupMainTabs() {
+        const tabButtons = document.querySelectorAll('.main-tab-button');
+        const tabPanes = document.querySelectorAll('.main-tab-pane');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const targetPaneId = button.id.replace('tab-btn-', 'pane-');
+                tabPanes.forEach(pane => pane.classList.toggle('active', pane.id === targetPaneId));
+            });
+        });
+    }
+</script>
+</body>
+</html>
