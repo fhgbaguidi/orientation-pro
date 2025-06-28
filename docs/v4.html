@@ -435,10 +435,6 @@
     <nav id="sidebar">
         <h3>Plan du questionnaire</h3>
         <ul id="toc">
-            <li id="toc-intro" class="active">Introduction</li>
-            <li id="toc-personality">1. Personnalité</li>
-            <li id="toc-passions">2. Passions</li>
-            <li id="toc-capacities">3. Capacités</li>
             <li id="toc-values">4. Valeurs</li>
             <li id="toc-results">Résultats</li>
         </ul>
@@ -925,9 +921,6 @@
     }
 
     // Le reste du script de calcul reste identique
-    function calculatePersonalityResults() { /* ... */ return []; }
-    function calculatePassionResults() { /* ... */ return []; }
-    function calculateCapacityResults() { /* ... */ return []; }
     function calculateValueResults() { /* ... */ return []; }
 
     function showResults() {
@@ -941,12 +934,6 @@
 
         const resultsContent = document.getElementById('results-content');
         resultsContent.innerHTML = '';
-        const personalityResults = calculatePersonalityResults();
-        if (personalityResults.length > 0) { let html = '<div class="results"><h3>Vos traits de personnalité</h3>'; personalityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%; background: linear-gradient(90deg, #667eea, #764ba2);">${r.score.toFixed(0)}%</div></div><p>Tendance dominante : <strong>${r.tendency}</strong></p></div>`; }); resultsContent.innerHTML += html + '</div>'; }
-        const passionResults = calculatePassionResults();
-        if (passionResults.length > 0) { let html = '<div class="results"><h3>Vos centres d\'intérêt dominants</h3>'; passionResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
-        const capacityResults = calculateCapacityResults();
-        if (capacityResults.length > 0) { let html = '<div class="results"><h3>Vos capacités naturelles</h3>'; capacityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
         const valueResults = calculateValueResults();
         if (valueResults.length > 0) { let html = '<div class="results"><h3>Vos valeurs prioritaires</h3>'; valueResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><ul>${r.values.map(v => `<li>${v}</li>`).join('')}</ul></div>`; }); resultsContent.innerHTML += html + '</div>'; }
 
