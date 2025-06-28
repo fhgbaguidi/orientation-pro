@@ -336,6 +336,12 @@
             border: 2px solid #667eea;
         }
 
+        .results h3 {
+            color: #5a67d8;
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
         .result-item {
             background: white;
             padding: 20px;
@@ -344,9 +350,40 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
 
-        .result-item h3 {
-            color: #5a67d8;
+        .value-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.07);
+        }
+        .value-card h4, .result-item h4 {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .value-card ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        .value-card li {
+            font-size: 1.1em;
+            color: #555;
             margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        .value-card li::before {
+            content: '•';
+            color: #667eea;
+            font-weight: bold;
+            display: inline-block;
+            position: absolute;
+            left: 0;
+            top: 0;
         }
 
         .score-bar {
@@ -635,6 +672,7 @@
 
     // --- FONCTIONS DE VALIDATION ET D'AFFICHAGE D'ERREUR ---
     function validateSection(index) {
+        clearAllErrors();
         const sectionId = sections[index];
         const sectionElement = document.getElementById(sectionId);
         if (!sectionElement) return null;
@@ -659,7 +697,6 @@
     }
 
     function displayError(errorElement, message) {
-        clearAllErrors();
         errorElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
         const errorDiv = document.createElement('div');
         errorDiv.className = 'error-message-inline';
@@ -707,18 +744,14 @@
     // --- LOGIQUE DE CALCUL DES RÉSULTATS ---
     function calculatePersonalityResults() {
         const results = [];
-        const factorElements = document.querySelectorAll('#section-personality h3');
-        factorElements.forEach((h3, index) => {
+        document.querySelectorAll('#section-personality h3').forEach((h3, index) => {
             const factorIndex = index + 1;
             let scoreA = 0, scoreB = 0;
-            const questionGroups = document.querySelectorAll(`#section-personality input[name^="f${factorIndex}q"]`);
-            const questionNames = [...new Set(Array.from(questionGroups).map(q => q.name))];
-
+            const questionNames = [...new Set(Array.from(document.querySelectorAll(`#section-personality input[name^="f${factorIndex}q"]`)).map(q => q.name))];
             questionNames.forEach(name => {
                 const sel = document.querySelector(`input[name="${name}"]:checked`);
                 if (sel) { sel.value === 'A' ? scoreA++ : scoreB++; }
             });
-
             if (scoreA + scoreB > 0) {
                 const factorName = h3.textContent.split(':')[1].trim();
                 const [traitA, traitB] = factorName.split('/');
@@ -731,8 +764,7 @@
 
     function calculatePassionResults() {
         const results = [];
-        const domainElements = document.querySelectorAll('#section-passions h3');
-        domainElements.forEach(h3 => {
+        document.querySelectorAll('#section-passions h3').forEach(h3 => {
             const domainName = h3.textContent;
             const prefix = domainName.split(' ')[1].substring(0,4);
             let total = 0, count = 0;
@@ -750,17 +782,12 @@
 
     function calculateCapacityResults() {
         const results = [];
-        const capacityElements = document.querySelectorAll('#section-capacities h3');
-        capacityElements.forEach(h3 => {
+        document.querySelectorAll('#section-capacities h3').forEach(h3 => {
             const name = h3.textContent;
-            let currentElement = h3.nextElementSibling;
-            let total = 0, count = 0;
+            let currentElement = h3.nextElementSibling, total = 0, count = 0;
             while (currentElement && currentElement.classList.contains('question-group')) {
                 const sel = currentElement.querySelector('input[type="radio"]:checked');
-                if(sel) {
-                    total += parseInt(sel.value);
-                    count++;
-                }
+                if(sel) { total += parseInt(sel.value); count++; }
                 currentElement = currentElement.nextElementSibling;
             }
             if (count > 0) {
@@ -774,7 +801,7 @@
     function calculateValueResults() {
         const results = [];
         document.querySelectorAll('#section-values .value-group').forEach(group => {
-            const name = group.querySelector('legend').textContent.replace(/\(\d\/\d\)/, '').trim();
+            const name = group.querySelector('legend').textContent.replace(/\s\(\d\/\d\)/, '').trim();
             const selected = group.querySelectorAll('input[type="checkbox"]:checked');
             const values = Array.from(selected).map(cb => cb.closest('.checkbox-label').querySelector('span').textContent);
             if (values.length > 0) {
@@ -785,7 +812,7 @@
     }
 
     // --- AFFICHAGE DES RÉSULTATS ---
-    function showResults() {
+    async function showResults() {
         const validationResult = validateSection(currentSection);
         if (validationResult) {
             displayError(validationResult.errorElement, validationResult.message);
@@ -805,7 +832,45 @@
         if (capacityResults.length > 0) { let html = '<div class="results"><h3>Vos capacités naturelles</h3>'; capacityResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><div class="score-bar"><div class="score-fill" style="width: ${r.score}%">${r.average}/5</div></div></div>`; }); resultsContent.innerHTML += html + '</div>'; }
 
         const valueResults = calculateValueResults();
-        if (valueResults.length > 0) { let html = '<div class="results"><h3>Vos valeurs prioritaires</h3>'; valueResults.forEach(r => { html += `<div class="result-item"><h4>${r.name}</h4><ul>${r.values.map(v => `<li>${v}</li>`).join('')}</ul></div>`; }); resultsContent.innerHTML += html + '</div>'; }
+        if (valueResults.length > 0) {
+            let html = '<div class="results"><h3>Vos valeurs prioritaires</h3>';
+            valueResults.forEach(r => {
+                html += `<div class="value-card"><h4>${r.name}</h4><ul>${r.values.map(v => `<li>${v.split('(')[0].trim()}</li>`).join('')}</ul></div>`;
+            });
+            resultsContent.innerHTML += html + '</div>';
+        }
+
+        // Créer un objet global avec tous les résultats
+        const submissionData = {
+            personality: personalityResults,
+            passions: passionResults,
+            capacities: capacityResults,
+            values: valueResults,
+            date: new Date().toISOString() // On ajoute la date de soumission
+        };
+
+        // --- 2. Tenter d'enregistrer les données (NOUVELLE PARTIE) ---
+        const SUPABASE_URL = 'https://axecogumnpqsufgcgcnk.supabase.co'; // À remplacer
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4ZWNvZ3VtbnBxc3VmZ2NnY25rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5MDYyMjEsImV4cCI6MjAzOTQ4MjIyMX0.dJY8f-VL7owcUkLVNVsSloMwJwV7jyBThluebRV0cHo'; // À remplacer
+
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/orientation_responses`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`
+                },
+                body: JSON.stringify({ results: submissionData }) // On insère notre objet dans la colonne 'results'
+            });
+
+            if (!response.ok) {
+                // Si l'enregistrement échoue, on affiche une erreur discrète mais on continue
+                console.error("Erreur lors de l'enregistrement des résultats :", await response.json());
+            }
+        } catch (error) {
+            console.error("Erreur réseau lors de la tentative d'enregistrement:", error);
+        }
 
         currentSection = sections.length - 1;
         updateDisplay();
