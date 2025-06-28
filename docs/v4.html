@@ -11,6 +11,10 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth; /* Active le défilement doux pour toute la page */
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -139,6 +143,17 @@
         .question-group:hover {
             border-color: #e2e8f0;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        /* NOUVEAU STYLE POUR LE MESSAGE D'ERREUR LOCAL */
+        .error-message-inline {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-weight: 500;
+            animation: fadeIn 0.3s;
         }
 
         .radio-group {
@@ -351,16 +366,6 @@
             margin-bottom: 30px;
         }
 
-        .error {
-            background: #fed7d7;
-            color: #c53030;
-            padding: 15px;
-            border-radius: 8px;
-            margin-bottom: 20px; /* Ajusté pour être au-dessus des sections */
-            display: none;
-            font-weight: 500;
-        }
-
         @media (max-width: 992px) {
             .main-layout {
                 flex-direction: column;
@@ -422,8 +427,6 @@
         <div class="progress-bar">
             <div class="progress-fill" id="progress"></div>
         </div>
-
-        <div id="error" class="error"></div>
 
         <div class="section active" id="section-intro">
             <div class="intro">
@@ -1501,30 +1504,30 @@
     let currentSection = 0;
     const sections = ['section-intro', 'section-personality', 'section-passions', 'section-capacities', 'section-values', 'section-results'];
     const tocItems = document.querySelectorAll('#toc li');
-    const errorDiv = document.getElementById('error');
 
-    // *** NOUVELLE FONCTION DE VALIDATION ***
+    // *** FONCTION DE VALIDATION MISE À JOUR ***
     function validateCurrentSection() {
+        // D'abord, on nettoie les anciens messages d'erreur
+        document.querySelectorAll('.error-message-inline').forEach(el => el.remove());
+
         const sectionElement = document.getElementById(sections[currentSection]);
-        if (!sectionElement) return true; // Si la section n'existe pas, on ne bloque pas
+        if (!sectionElement) return null; // Si la section n'existe pas, on valide
 
-        // On récupère tous les groupes de questions (identifiés par leur attribut 'name')
-        const questionNames = new Set();
-        const radios = sectionElement.querySelectorAll('input[type="radio"]');
-        radios.forEach(radio => questionNames.add(radio.name));
+        const questionGroups = sectionElement.querySelectorAll('.question-group');
 
-        // S'il n'y a pas de question radio, la section est valide
-        if (questionNames.size === 0) return true;
-
-        for (const name of questionNames) {
-            // On vérifie si au moins une réponse a été cochée pour ce groupe
-            const isAnswered = document.querySelector(`input[name="${name}"]:checked`);
-            if (!isAnswered) {
-                return false; // Si une question n'est pas répondue, la validation échoue
+        for (const group of questionGroups) {
+            // On vérifie s'il y a des boutons radio dans ce groupe
+            const radios = group.querySelectorAll('input[type="radio"]');
+            if (radios.length > 0) {
+                // On vérifie si un des radios est coché
+                const isAnswered = group.querySelector('input[type="radio"]:checked');
+                if (!isAnswered) {
+                    return group; // On retourne le groupe de la première question non répondue
+                }
             }
         }
 
-        return true; // Toutes les questions ont une réponse
+        return null; // Tout est valide, on retourne null
     }
 
     function updateDisplay() {
@@ -1539,17 +1542,22 @@
         window.scrollTo(0, 0);
     }
 
-    // *** FONCTION NEXTSECTION MISE À JOUR AVEC LA VALIDATION ***
+    // *** FONCTION NEXTSECTION MISE À JOUR POUR LE DÉFILEMENT ET L'ERREUR LOCALE ***
     function nextSection() {
-        // On valide la section actuelle AVANT de continuer
-        if (!validateCurrentSection()) {
-            errorDiv.textContent = 'Veuillez répondre à toutes les questions avant de continuer.';
-            errorDiv.style.display = 'block';
+        const firstErrorGroup = validateCurrentSection();
+
+        if (firstErrorGroup) {
+            // Fait défiler la vue jusqu'au groupe de la question en erreur
+            firstErrorGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+            // Crée et insère le message d'erreur dans le groupe de la question
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message-inline';
+            errorDiv.textContent = 'Veuillez répondre à cette question pour continuer.';
+            firstErrorGroup.appendChild(errorDiv);
+
             return; // On arrête la fonction ici
         }
-
-        // Si la validation réussit, on cache le message d'erreur et on continue
-        errorDiv.style.display = 'none';
 
         if (currentSection < sections.length - 1) {
             currentSection++;
@@ -1557,9 +1565,8 @@
         }
     }
 
-    // *** FONCTIONS DE NAVIGATION MISES À JOUR POUR CACHER L'ERREUR ***
     function previousSection() {
-        errorDiv.style.display = 'none';
+        document.querySelectorAll('.error-message-inline').forEach(el => el.remove());
         if (currentSection > 0) {
             currentSection--;
             updateDisplay();
@@ -1568,7 +1575,7 @@
 
     tocItems.forEach((item, index) => {
         item.addEventListener('click', () => {
-            errorDiv.style.display = 'none';
+            document.querySelectorAll('.error-message-inline').forEach(el => el.remove());
             if (index < sections.length - 1) {
                 currentSection = index;
                 updateDisplay();
@@ -1580,7 +1587,7 @@
         document.location.reload();
     }
 
-    // Le reste du script de calcul reste identique...
+    // Le reste du script de calcul reste identique
     function calculatePersonalityResults() {
         const factors = [ { name: 'Accommodant/Meneur', q: ['f1q1', 'f1q2', 'f1q3'] }, { name: 'Introverti/Extraverti', q: ['f2q1', 'f2q2', 'f2q3'] }, { name: 'Détaché/Compatissant', q: ['f3q1', 'f3q2', 'f3q3'] }, { name: 'Non-structuré/Consciencieux', q: ['f4q1', 'f4q2', 'f4q3'] }, { name: 'Prudent/Aventureux', q: ['f5q1', 'f5q2', 'f5q3'] }, { name: 'Conventionnel/Innovateur', q: ['f6q1', 'f6q2', 'f6q3'] } ];
         const results = [];
@@ -1627,12 +1634,15 @@
     }
 
     function showResults() {
-        if (!validateCurrentSection()) {
-            errorDiv.textContent = 'Veuillez répondre à toutes les questions avant de continuer.';
-            errorDiv.style.display = 'block';
+        const firstErrorGroup = validateCurrentSection();
+        if (firstErrorGroup) {
+            firstErrorGroup.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message-inline';
+            errorDiv.textContent = 'Veuillez répondre à cette question pour voir les résultats.';
+            firstErrorGroup.appendChild(errorDiv);
             return;
         }
-        errorDiv.style.display = 'none';
 
         const resultsContent = document.getElementById('results-content');
         resultsContent.innerHTML = '';
